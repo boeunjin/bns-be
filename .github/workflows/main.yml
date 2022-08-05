@@ -1,0 +1,112 @@
+name: Deploy to Nomad Cluster
+
+on:
+  push:
+      
+env:
+  # Organization Secrets
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  NOMAD_CLUSTER: ${{ secrets.NOMAD_CLUSTER }}
+  NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
+
+  APP_NAME:  uplus-bookhub       # Application 이름. Image TAG Prefix로 사용 됨
+  AWS_REGION: ap-northeast-2       # AWS EKS & ECR이 위치한 AWS Region
+  DEPLOY_ENV : dev
+
+jobs:
+  build:
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+    # 소스 가져오기
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # AWS credentials 설정
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    # AWS ECR 로그인
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    # Waypoint 설치
+    - name: Waypoint install
+      id: waypoint-install
+      run: |
+        # waypoint 설치 #1
+        curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+        sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+        sudo apt-get update && sudo apt-get install waypoint
+    # Docker에 waypoint 서버 설치
+    - name: Waypoint server install on docker platform
+      id: waypoint-server-install-docker
+      run: |
+        # Waypoint Server Install
+        sudo waypoint install -platform=docker -accept-tos
+    # Waypoint Init
+    - name: Waypoint Init
+      id: waypoint-init
+      run: |
+        # Waypoint 초기화
+        sudo waypoint init
+    # 난수 생성
+    - name: Short sha
+      run: echo "short_sha=`echo ${{github.sha}} | cut -c1-8`" >> $GITHUB_ENV
+
+    # Waypoint build
+    - name: Waypoint Build
+      id: waypoint-build
+      env:
+        ECR_ADDR:  ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ steps.login-ecr.outputs.registry }}/ecr-${{ env.DEPLOY_ENV }}-${{ env.APP_NAME }}
+      run: |
+        aws ecr get-login-password --region ${{ env.AWS_REGION }} | sudo docker login --username AWS --password-stdin ${{ env.ECR_ADDR }}
+        # Waypoint build
+        sudo waypoint build -plain -var="ecr_repo=${{ env.ECR_REPOSITORY }}" -var="image_tag=${{ env.DEPLOY_ENV }}-django-test-QL_SVC_40-${{ env.short_sha }}"
+  deploy:
+    needs: build
+    name: Deploy to Nomad cluster
+    runs-on: ubuntu-latest
+
+    steps:
+    # 소스 가져오기
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # 난수 생성
+    - name: Short sha
+      run: echo "short_sha=`echo ${{github.sha}} | cut -c1-8`" >> $GITHUB_ENV
+      
+    # AWS credentials 설정
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+    
+     # AWS ECR 로그인
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+      
+    # 배포를 위한 nomad 설정
+    - name: Deploy to Nomad
+      id: deploy-nomad
+      env:
+        ECR_ADDR:  "${{ steps.login-ecr.outputs.registry }}"
+        IMAGE_TAG: "${{ env.DEPLOY_ENV }}-${{ env.APP_NAME }}-be-${{ env.short_sha }}"
+      run: |
+        curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+        sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+        sudo apt-get update && sudo apt-get install nomad
+        aws ecr get-login-password --region ${{ env.AWS_REGION }} | sudo docker login --username AWS --password-stdin ${{ env.ECR_ADDR }}
+        nomad job dispatch -token=${{ env.NOMAD_TOKEN }} -address=${{ env.NOMAD_CLUSTER }} -meta serviceID="django-test_QL_SVC_40" -meta port="9002" -meta ecrTag="${{ env.IMAGE_TAG }}" -meta toPort="5000" bookhub
