@@ -70,7 +70,7 @@ jobs:
       run: |
         aws ecr get-login-password --region ${{ env.AWS_REGION }} | sudo docker login --username AWS --password-stdin ${{ env.ECR_ADDR }}
         # Waypoint build
-        sudo waypoint build -plain -var="ecr_repo=${{ env.ECR_REPOSITORY }}" -var="image_tag=${{ env.DEPLOY_ENV }}-django-test-QL_SVC_40-${{ env.short_sha }}"
+        sudo waypoint build -plain -var="ecr_repo=${{ env.ECR_REPOSITORY }}" -var="image_tag=${{ env.DEPLOY_ENV }}-${{ env.APP_NAME }}-be-${{ env.short_sha }}"
   deploy:
     needs: build
     name: Deploy to Nomad cluster
@@ -109,4 +109,4 @@ jobs:
         sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
         sudo apt-get update && sudo apt-get install nomad
         aws ecr get-login-password --region ${{ env.AWS_REGION }} | sudo docker login --username AWS --password-stdin ${{ env.ECR_ADDR }}
-        nomad job dispatch -token=${{ env.NOMAD_TOKEN }} -address=${{ env.NOMAD_CLUSTER }} -meta serviceID="django-test_QL_SVC_40" -meta port="9002" -meta ecrTag="${{ env.IMAGE_TAG }}" -meta toPort="5000" bookhub
+        nomad job dispatch -token=${{ env.NOMAD_TOKEN }} -address=${{ env.NOMAD_CLUSTER }} -meta serviceID="${{ env.APP_NAME }}-be" -meta port="9002" -meta ecrTag="${{ env.IMAGE_TAG }}" -meta toPort="5000" bookhub
