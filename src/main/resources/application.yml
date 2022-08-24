@@ -1,0 +1,48 @@
+server:
+  port: 8200
+
+spring:
+  application:
+    name: bookhub-service
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    generate-ddl: true
+    defer-datasource-initialization: true
+    hikari:
+      minimum-idle: 50
+      maximum-pool-size: 50
+
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    #;DB_CLOSE_DELAY=-1
+    #    url: jdbc:h2:tcp://localhost:8200/testdb
+    username: sa
+    password:
+
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+### Logging Level
+logging:
+  level:
+    com.bns.bookhubservice: DEBUG
+    org:
+      hibernate:
+        SQL: DEBUG
