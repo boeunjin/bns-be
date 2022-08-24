@@ -1,6 +1,23 @@
 server:
-  port: 8200
-
+  port: 5000
+  ssl:
+    enabled: true
+    key-store: keystore.p12
+    key-store-password: elwlahs21@
+    key-store-type: PKCS12
+    key-alias: bns-ssl
+    tomcat:
+      threads:
+        max: 512
+    servlet:
+      context-path: /
+      encoding:
+        charset: UTF-8
+        enabled: true
+        force: true
+      session:
+        cookie:
+          secure: false
 spring:
   application:
     name: bookhub-service
@@ -34,11 +51,44 @@ spring:
     store-type: jdbc
     jdbc:
       initialize-schema: always
+  security:
+    oauth2:
+      client:
+        registration:
+          slack:
+            client-id: "3392925850004.3392957480676"
+            client-secret: "f012e5d286ba1f9e02dc94bbd81afa98"
+            scope: openid, email
+
+            #redirect-uri: https://126f-210-219-154-139.jp.ngrok.io/postlogin #/login/oauth2/code/slack
+
+            #"{baseUrl}/{action}/oauth2/code/{registrationId}" # (== http://localhost:8080/login/oauth2/code/slack)
+            #client-name: Slack
+
+
+        provider:
+          slack:
+            issuer-uri: https://slack.com
+            authorization-uri: https://slack.com/openid/connect/authorize
+            token-uri: https://slack.com/api/openid.connect.token
+            user-info-uri: https://slack.com/api/openid.connect.userInfo
 
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+
+slack:
+  user_token: xoxp-3392925850004-3383932553926-3942933825012-374932d35a812b603250d7831655b34d
+  bot_token: xoxb-3392925850004-3925308931427-dCvYfpGYXemjs7k25xKqiS8K
+  bot_id : U03T792TDCK   #bamboo_id
+  channel:
+    monitor: C03T61HDPB6
+
+
+app:
+  cors:
+    allowedOrigins: https://localhost:5000, , http://localhost:8080 , http://localhost:5000
 ### Logging Level
 logging:
   level:
@@ -46,3 +96,4 @@ logging:
     org:
       hibernate:
         SQL: DEBUG
+

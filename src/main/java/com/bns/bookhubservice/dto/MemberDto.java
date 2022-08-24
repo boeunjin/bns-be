@@ -4,6 +4,8 @@ import javax.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.sql.Timestamp;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,5 +17,4 @@ public class MemberDto {
     private String memberTeamName;
     private String memberLocation;
     private String memberSlackId;
-    private String memberId;
 }

@@ -21,9 +21,9 @@ public class QMemberEntity extends EntityPathBase<MemberEntity> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final StringPath memberEmail = createString("memberEmail");
+    public final StringPath member_id = createString("member_id");
 
-    public final StringPath memberId = createString("memberId");
+    public final StringPath memberEmail = createString("memberEmail");
 
     public final StringPath memberLocation = createString("memberLocation");
 

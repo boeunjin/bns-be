@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/invertJsonForm.js"></script>
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+</head>
+<body>
+<H1>회원가입 페이지</H1>
+<form>
+    <label for="name" class="t3">이름</label><br>
+    <input type="text" id ="name" name="memberName" placeholder="이름"/> <br/>
+    <label for="team" class="t3">팀 이름</label><br>
+    <input type="text" id ="team" name="memberTeamName" placeholder="팀 이름"/> <br/>
+    <label for="place" class="t3">장소</label><br>
+    <input type="text" id ="place" name="memberLocation" placeholder="근무 장소"/> <br/>
+</form>
+
+<br>
+<button id ="btn-save">회원 가입</button>
+</br>
+</body>
+</html>

@@ -2,10 +2,10 @@ package com.bns.bookhubservice.entity;
 
 
 import lombok.*;
+
 import javax.persistence.*;
 
-@Getter
-@Setter
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,6 +16,7 @@ public class MemberEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String member_id;
 
     private String memberName;
     private String memberEmail;
@@ -25,6 +26,5 @@ public class MemberEntity {
     @Column(nullable = false, unique = true)
     private String memberSlackId;
 
-    @Column(nullable = false, unique = true)
-    private String memberId;
+
 }

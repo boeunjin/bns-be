@@ -2,6 +2,8 @@ package com.bns.bookhubservice.vo;
 
 import lombok.Data;
 
+import java.sql.Timestamp;
+
 @Data
 public class ResponseMember {
     private String memberName;
@@ -9,5 +11,4 @@ public class ResponseMember {
     private String memberTeamName;
     private String memberLocation;
     private String memberSlackId;
-    private String memberId;
 }
