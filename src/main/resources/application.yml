@@ -60,7 +60,7 @@ spring:
             client-secret: "f012e5d286ba1f9e02dc94bbd81afa98"
             scope: openid, email
 
-            redirect-uri: https://be.uplusbookhub.site #/login/oauth2/code/slack
+            redirect-uri: https://be.uplusbookhub.site/login/oauth2/code/slack
 
             #"{baseUrl}/{action}/oauth2/code/{registrationId}" # (== http://localhost:8080/login/oauth2/code/slack)
             #client-name: Slack
