@@ -4,6 +4,7 @@ package com.bns.bookhubservice.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 
 @Builder
@@ -16,15 +17,16 @@ public class MemberEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String member_id;
 
-    private String memberName;
-    private String memberEmail;
-    private String memberTeamName;
-    private String memberLocation;
+    private String name;
+    private String email;
+    private String team;
+    private String location;
 
     @Column(nullable = false, unique = true)
-    private String memberSlackId;
+    private String slackId;
+
+    private LocalDate regDate;
 
 
 }

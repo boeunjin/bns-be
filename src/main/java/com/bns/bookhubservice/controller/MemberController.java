@@ -1,7 +1,6 @@
 package com.bns.bookhubservice.controller;
 
 import com.bns.bookhubservice.dto.MemberDto;
-import com.bns.bookhubservice.entity.MemberEntity;
 import com.bns.bookhubservice.service.MemberService;
 import com.bns.bookhubservice.vo.ResponseMember;
 import io.swagger.annotations.Api;

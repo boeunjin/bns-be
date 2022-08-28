@@ -12,9 +12,9 @@ import java.sql.Timestamp;
 @SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 public class MemberDto {
-    private String memberName;
-    private String memberEmail;
-    private String memberTeamName;
-    private String memberLocation;
-    private String memberSlackId;
+    private String name;
+    private String email;
+    private String team;
+    private String location;
+    private String slackId;
 }

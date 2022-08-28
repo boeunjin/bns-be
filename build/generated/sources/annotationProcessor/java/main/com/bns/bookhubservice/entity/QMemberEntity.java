@@ -19,19 +19,19 @@ public class QMemberEntity extends EntityPathBase<MemberEntity> {
 
     public static final QMemberEntity memberEntity = new QMemberEntity("memberEntity");
 
+    public final StringPath email = createString("email");
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final StringPath member_id = createString("member_id");
+    public final StringPath location = createString("location");
 
-    public final StringPath memberEmail = createString("memberEmail");
+    public final StringPath name = createString("name");
 
-    public final StringPath memberLocation = createString("memberLocation");
+    public final DatePath<java.time.LocalDate> regDate = createDate("regDate", java.time.LocalDate.class);
 
-    public final StringPath memberName = createString("memberName");
+    public final StringPath slackId = createString("slackId");
 
-    public final StringPath memberSlackId = createString("memberSlackId");
-
-    public final StringPath memberTeamName = createString("memberTeamName");
+    public final StringPath team = createString("team");
 
     public QMemberEntity(String variable) {
         super(MemberEntity.class, forVariable(variable));

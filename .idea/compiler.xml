@@ -26,6 +26,6 @@
         <module name="bookhub-service.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="11" />
+    <bytecodeTargetLevel target="13" />
   </component>
 </project>
