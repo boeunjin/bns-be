@@ -1,17 +1,17 @@
 
 
-insert into members (id, member_id, member_name, member_email, member_team_name, member_location, member_slack_id) values ('1', '1', '진보은', 'boeunjin@lguplus.co.kr', '클라우드아키텍처팀', '마곡사옥/8층', 'aaa');
-insert into members (id, member_id, member_name, member_email, member_team_name, member_location, member_slack_id) values ('2', '2', '이찬규', 'changyulee@lguplus.co.kr', '클라우드아키텍처팀', '마곡사옥/8층', 'bbb');
-insert into members (id, member_id, member_name, member_email, member_team_name, member_location, member_slack_id) values ('3', '3', '이대영', 'deayounglee@lguplus.co.kr', '클라우드CoE팀', '마곡사옥/8층', 'ccc');
-insert into members (id, member_id, member_name, member_email, member_team_name, member_location, member_slack_id) values ('4', '4', '양지원', 'jiwonyang@lguplus.co.kr', '클라우드솔루션엔지니어링팀', '마곡사옥/8층', 'ddd');
-insert into members (id, member_id, member_name, member_email, member_team_name, member_location, member_slack_id) values ('5', '5', '이지훈', 'jihoonlee@lguplus.co.kr', '클라우드플랫폼엔지니어링팀', '마곡사옥/8층', 'eee');
-insert into members (id, member_id, member_name, member_email, member_team_name, member_location, member_slack_id) values ('6', '6','오혜영', 'eongoh@lguplus.co.kr', 'IPTV서비스개발1팀', '역삼 메가존', 'U037EG0PYN5');
-insert into members (id, member_id, member_name, member_email, member_team_name, member_location, member_slack_id) values ('7', '7','한서영', 'syhan622@lguplus.co.kr', '서비스프로토타입팀', '마곡사옥/8층', 'U036NDVDGNA');
-insert into members (id, member_id, member_name, member_email, member_team_name, member_location, member_slack_id) values ('8','8','정산하', 'sanha9723@lguplus.co.kr', '서비스프로토타입팀', '마곡사옥/8층', 'U036NDVFN06');
-insert into members (id, member_id, member_name, member_email, member_team_name, member_location, member_slack_id) values ('9', '9','송제호', 'oidwin@lguplus.co.kr', '클라우드플랫폼엔지니어링팀', '마곡사옥/8층', 'U0321PMKJEB');
-insert into members (id, member_id, member_name, member_email, member_team_name, member_location, member_slack_id) values ('10', '10','김욱휘', 'etti10@lguplus.co.kr', 'IPTV서비스개발2팀', '역삼 메가존', 'U036T8VT49K');
-insert into members (id, member_id, member_name, member_email, member_team_name, member_location, member_slack_id) values ('11','11','현병욱', 'mornadina@lguplus.co.kr', 'IPTV서비스개발2팀', '역삼 메가존', 'U036VPHUVNE');
-insert into members (id, member_id, member_name, member_email, member_team_name, member_location, member_slack_id) values ('12', '12','조정인', 'jojungin@lguplus.co.kr', '클라우드아키텍처팀', '마곡사옥/8층', 'U032VGJDPJ6');
+insert into members (id, name, email, team, location, slack_id, reg_date) values ('1', '진보은', 'boeunjin@lguplus.co.kr', '클라우드아키텍처팀', '마곡사옥/8층', 'aaa', '2022-02-28');
+insert into members (id, name, email, team, location, slack_id, reg_date) values ('2', '이찬규', 'changyulee@lguplus.co.kr', '클라우드아키텍처팀', '마곡사옥/8층', 'bbb', '2022-02-28');
+insert into members (id, name, email, team, location, slack_id, reg_date) values ('3', '이대영', 'deayounglee@lguplus.co.kr', '클라우드CoE팀', '마곡사옥/8층', 'ccc', '2022-02-28');
+insert into members (id, name, email, team, location, slack_id, reg_date) values ('4', '양지원', 'jiwonyang@lguplus.co.kr', '클라우드솔루션엔지니어링팀', '마곡사옥/8층', 'ddd', '2022-02-28');
+insert into members (id, name, email, team, location, slack_id, reg_date) values ('5', '이지훈', 'jihoonlee@lguplus.co.kr', '클라우드플랫폼엔지니어링팀', '마곡사옥/8층', 'eee', '2022-02-28');
+insert into members (id, name, email, team, location, slack_id, reg_date) values ('6', '오혜영', 'eongoh@lguplus.co.kr', 'IPTV서비스개발1팀', '역삼 메가존', 'U037EG0PYN5', '2022-02-28');
+insert into members (id, name, email, team, location, slack_id, reg_date) values ('7', '한서영', 'syhan622@lguplus.co.kr', '서비스프로토타입팀', '마곡사옥/8층', 'U036NDVDGNA', '2022-02-28');
+insert into members (id, name, email, team, location, slack_id, reg_date) values ('8', '정산하', 'sanha9723@lguplus.co.kr', '서비스프로토타입팀', '마곡사옥/8층', 'U036NDVFN06', '2022-02-28');
+insert into members (id, name, email, team, location, slack_id, reg_date) values ('9', '송제호', 'oidwin@lguplus.co.kr', '클라우드플랫폼엔지니어링팀', '마곡사옥/8층', 'U0321PMKJEB', '2022-02-28');
+insert into members (id, name, email, team, location, slack_id, reg_date) values ('10', '김욱휘', 'etti10@lguplus.co.kr', 'IPTV서비스개발2팀', '역삼 메가존', 'U036T8VT49K', '2022-02-28');
+insert into members (id, name, email, team, location, slack_id, reg_date) values ('11', '현병욱', 'mornadina@lguplus.co.kr', 'IPTV서비스개발2팀', '역삼 메가존', 'U036VPHUVNE', '2022-02-28');
+insert into members (id, name, email, team, location, slack_id, reg_date) values ('12', '조정인', 'jojungin@lguplus.co.kr', '클라우드아키텍처팀', '마곡사옥/8층', 'U032VGJDPJ6', '2022-02-28');
 
 insert into books (id, title, thumbnail_url, author, publisher, owner_id, is_rented, rent_count, reg_date) values ('1', 'Python for DevOps', 'http://books.google.com/books/content?id=qGaixgEACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72wgGP0fn2OF6PIZ_i19yAnBVwY9qng5VgjNzSoLUgpVjWKNQFnEE7dvzU0-0vbefa3LVL4HhhedTFeNDxiMdwurxagzl9qZn5CKItIZBVSQk1fK_5V_Rg9CuwOlLmCXcU1saEz&source=gbs_api', 'Noah Gift', 'O''Reilly Media', '1', False, 0, '2022-08-12');
 insert into books (id, title, thumbnail_url, author, publisher, owner_id, is_rented, rent_count, reg_date) values ('2', 'Do it! BERT와 GPT로 배우는 자연어 처리', 'http://books.google.com/books/publisher/content?id=1W9UEAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE70RD75ensoBM9rDusxszvPXY1N-24qrwlMn0rf2MWDMKmsO7z5Q9qMk3qhxMfLRA6btTNR2WV8Ube1MyMzEmymUvuiHtlAcGz5slwQl_pyc1gdjM86zhrGnJLi5N4iXfeFtxdI0&source=gbs_api', '이기창', '이지스퍼블리싱 ㈜', '2', False, 0, '2022-08-12');
