@@ -40,14 +40,14 @@ public class MemberService {
 //        MemberDto memberDto = new ModelMapper().map(memberEntity, MemberDto.class);
 //        return memberDto;
 //    }
-//    public MemberDto getMemberById(Long id) throws Exception {
-//        MemberEntity memberEntity = memberRepository.findById(id);
-////        return memberRepository.findById();
-//        if (memberEntity == null ){
-//            throw new Exception();
-//        }
-//        MemberDto memberDto = new ModelMapper().map(memberEntity, MemberDto.class);
-//        return memberDto;
-//    }
+    public MemberDto getMemberById(Long id) throws Exception {
+        MemberEntity memberEntity = memberRepository.findById(id);
+//        return memberRepository.findById();
+        if (memberEntity == null ){
+            throw new Exception();
+        }
+        MemberDto memberDto = new ModelMapper().map(memberEntity, MemberDto.class);
+        return memberDto;
+    }
 
 }
