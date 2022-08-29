@@ -11,9 +11,9 @@ public interface MemberRepository extends JpaRepository<MemberEntity, String> {
     MemberEntity save(MemberEntity memberEntity);
 
     //회원 정보 조회
-    MemberEntity findByMemberSlackId(String slackId);
+//    MemberEntity findByMemberSlackId(String slackId);
 
-    MemberEntity findByMemberName(String memberName);
+//    MemberEntity findByMemberName(String memberName);
 
     MemberEntity findById(Long id);
 }

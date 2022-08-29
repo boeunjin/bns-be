@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -12,9 +13,10 @@ import java.sql.Timestamp;
 @SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 public class MemberDto {
-    private String name;
+    private String username;
     private String email;
     private String team;
     private String location;
     private String slackId;
+    private LocalDate regDate;
 }
