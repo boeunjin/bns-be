@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class BlokitBuilder {
 
-    public ArrayList<Object> blockit(String owner){
+    public ArrayList<Object> blockit(String owner, String myself , String bookName, String author, String image , String place){
         ArrayList<Object> blocks =new ArrayList<Object>();
         //Header
         JSONObject ji  =new JSONObject();
@@ -27,12 +27,12 @@ public class BlokitBuilder {
 
         //Section 1
         JSONObject ji11 = new JSONObject();
-        ji11.put("text","*책 제목:*\n마이크로서비스 패턴");
+        ji11.put("text","*책 제목:*\n"+bookName);
         ji11.put("type","mrkdwn");
 
 
         JSONObject ji12 = new JSONObject();
-        ji12.put("text","*저자 :*\n크리스 리처드슨");
+        ji12.put("text","*저자 :*\n"+author);
         ji12.put("type","mrkdwn");
 
 
@@ -48,11 +48,11 @@ public class BlokitBuilder {
         //Section2
         JSONObject ji21 = new JSONObject();
         ji21.put("type","mrkdwn");
-        ji21.put("text","*요청자 근무지 :*\n마곡사옥/8층");
+        ji21.put("text","*요청자 근무지 :*\n"+place);
 
         JSONObject ji22 = new JSONObject();
         ji22.put("type","mrkdwn");
-        ji22.put("text","*요청자 :*\n<@"+owner+"> 님");
+        ji22.put("text","*요청자 :*\n<@"+myself+"> 님");
 
         JSONArray jl2 = new JSONArray();
         jl2.add(ji22);
@@ -66,7 +66,7 @@ public class BlokitBuilder {
         //Book Image
         JSONObject jo4 = new JSONObject();
         jo4.put("type","image");
-        jo4.put("image_url","https://books.google.co.kr/books/content?id=dt_QDwAAQBAJ&printsec=frontcover&img=1&zoom=1&h=160&stbn=1");
+        jo4.put("image_url",image);
         jo4.put("alt_text","inspiration");
         blocks.add(jo4);
 

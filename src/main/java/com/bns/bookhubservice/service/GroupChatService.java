@@ -4,8 +4,10 @@ import com.bns.bookhubservice.entity.json.BlokitBuilder;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,17 +30,22 @@ public class GroupChatService {
     private String bot_token;
 
     public BlokitBuilder blokitBuilder = new BlokitBuilder();
+    @Autowired
+    private MemberService memberService;
 
 
 
-    public void groupChat(String owner, String myself){
+    public void groupChat(String owner, String myself , String bookName, String author, String image){
         URL url = null;
 
         String users = owner+"%2C"+myself+"%2C"+id;
         String bearer_token = "Bearer "+token;
         String bearer_bot_token = "Bearer "+bot_token;
 
+
+
         try {
+            String place = memberService.getMemberLocation(myself);
             //API 연결
             String uri = "https://slack.com/api/conversations.open?users="+users+"&pretty=1";
             url = new URL(uri);
@@ -79,7 +86,7 @@ public class GroupChatService {
             http1.setRequestProperty("Authorization", "Bearer xoxb-3392925850004-3925308931427-dCvYfpGYXemjs7k25xKqiS8K");
             http1.setRequestProperty("Content-Type", "application/json");
 
-            String data = messageForm(channel_id,owner);
+            String data = messageForm(channel_id,owner,myself,bookName,author,image, place);
             byte[] out = data.getBytes(StandardCharsets.UTF_8);
 
             OutputStream stream = http1.getOutputStream();
@@ -97,13 +104,15 @@ public class GroupChatService {
             throw new RuntimeException(e);
         } catch (NullPointerException e){
             throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public String messageForm(String channel_id, String owner){
+    public String messageForm(String channel_id, String owner,String myself , String bookName, String author, String image, String place){
         JSONObject message = new JSONObject();
         //blockit builder 설정
-        ArrayList<Object> blocks = blokitBuilder.blockit(owner);
+        ArrayList<Object> blocks = blokitBuilder.blockit(owner, myself, bookName, author, image, place);
 
         message.put("channel", channel_id);
         message.put("username", "Book Hub");

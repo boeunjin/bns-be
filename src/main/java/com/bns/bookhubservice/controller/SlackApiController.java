@@ -81,7 +81,7 @@ public class SlackApiController {
     public ResponseEntity<String> createGroup(@RequestBody Map<String, Object> data){
         try{
             RentalJson rentalJson = new RentalJson(data);
-            groupChatService.groupChat(rentalJson.getOwner(),rentalJson.getMyself());
+            groupChatService.groupChat(rentalJson.getOwner(),rentalJson.getMyself(), rentalJson.getBookName(), rentalJson.getAuthor(), rentalJson.getImage());
             rentalJson.setJson();
             return new ResponseEntity<>(rentalJson.getJson(),HttpStatus.OK);
         }catch (Exception e){
