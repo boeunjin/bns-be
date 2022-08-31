@@ -67,11 +67,11 @@ public class SecurityLoginSuccessHandler extends SavedRequestAwareAuthentication
 //        }
 //
 //        LoginResp loginOidcResp = sessionService.loginOidc(authentication);
-        String targetUrl = "https://service.uplusbookhub.site";//redirectUri.orElse(getDefaultTargetUrl());
+        String targetUrl = "https://service.uplusbookhub.site/";//redirectUri.orElse(getDefaultTargetUrl());
         log.debug("targetulr"+targetUrl);
 
         if (Member_OAuth.equals(Boolean.FALSE)){
-            return targetUrl+"joinForm";
+            return targetUrl+"signup";
         }
         else{
         return targetUrl+"main";}
