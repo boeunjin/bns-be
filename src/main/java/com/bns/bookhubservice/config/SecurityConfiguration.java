@@ -5,6 +5,7 @@ import com.bns.bookhubservice.config.oauth.handler.SecurityLoginFailureHandler;
 import com.bns.bookhubservice.config.oauth.handler.SecurityLoginSuccessHandler;
 import com.bns.bookhubservice.config.oauth.repository.HttpCookieOAuth2AuthorizationRequestRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -35,6 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	private final CustomOAuth2UserService customOAuth2UserService;
 
 	private final SecurityLoginSuccessHandler securityLoginSuccessHandler;
+
 
 	private final SecurityLoginFailureHandler securityLoginFailureHandler;
 

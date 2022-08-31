@@ -37,8 +37,7 @@ public class CustomOAuth2UserService extends OidcUserService {
     }
     private void processOAuth2User(OidcUserRequest userRequest, OidcUser oidcUser) {
         OAuth2UserInfo oAuth2UserInfo = new OAuth2UserInfo(oidcUser.getAttributes());
-        String email =
-                oAuth2UserInfo.getEmail();//.substring(0, oAuth2UserInfo.getEmail().indexOf("@"));
+        String email = oAuth2UserInfo.getEmail();//.substring(0, oAuth2UserInfo.getEmail().indexOf("@"));
         String Id = oAuth2UserInfo.getId();
         System.out.println("email:  "+email);
         System.out.println("slack_id: "+Id);

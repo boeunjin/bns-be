@@ -1,11 +1,15 @@
 package com.bns.bookhubservice.util;
 
+import com.bns.bookhubservice.service.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
 
 public class ValidateUtil {
+    @Autowired
+    private MemberService memberService;
     private ValidateUtil() {
         // 유틸클래스 선언 방지
     }
@@ -37,5 +41,17 @@ public class ValidateUtil {
             }
         }
         return true;
+    }
+    public boolean isEnrollUser(String id){
+        boolean check = true;
+        try {
+            String location = memberService.getMemberLocation(id);
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
+        }
+        return check;
     }
 }
