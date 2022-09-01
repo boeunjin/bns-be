@@ -3,6 +3,7 @@ package com.bns.bookhubservice.service;
 import com.bns.bookhubservice.dto.RentalDto;
 import com.bns.bookhubservice.entity.RentalEntity;
 import com.bns.bookhubservice.repository.RentalRepository;
+import com.bns.bookhubservice.vo.request.RequestRental;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -19,7 +20,10 @@ public class RentalService {
     @Autowired private RentalRepository rentalRepository;
 
     // 대여 정보 저장
-    public RentalEntity create(RentalEntity rentalEntity) throws Exception {
+    public RentalEntity create(RequestRental requestRental) throws Exception {
+        RentalEntity rentalEntity = new ModelMapper().map(requestRental, RentalEntity.class);
+        rentalEntity.setStartDate(LocalDate.now());
+//        rentalEntity.setEndDate();
         rentalRepository.save(rentalEntity);
         return RentalEntity.builder().build();
     }

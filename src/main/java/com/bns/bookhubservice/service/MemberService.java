@@ -3,10 +3,12 @@ package com.bns.bookhubservice.service;
 import com.bns.bookhubservice.dto.MemberDto;
 import com.bns.bookhubservice.entity.MemberEntity;
 import com.bns.bookhubservice.repository.MemberRepository;
+import com.bns.bookhubservice.vo.request.RequestMember;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service("memberService")
@@ -16,7 +18,9 @@ public class MemberService {
     private MemberRepository memberRepository;
 
     // 회원 가입
-    public MemberEntity create(MemberEntity memberEntity) throws Exception {
+    public MemberEntity create(RequestMember requestMember) throws Exception {
+        MemberEntity memberEntity = new ModelMapper().map(requestMember, MemberEntity.class);
+        memberEntity.setRegDate(LocalDate.now());
         memberRepository.save(memberEntity);
         return MemberEntity.builder().build();
     }

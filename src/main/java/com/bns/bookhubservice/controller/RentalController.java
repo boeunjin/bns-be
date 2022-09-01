@@ -3,7 +3,8 @@ package com.bns.bookhubservice.controller;
 import com.bns.bookhubservice.dto.RentalDto;
 import com.bns.bookhubservice.entity.RentalEntity;
 import com.bns.bookhubservice.service.RentalService;
-import com.bns.bookhubservice.vo.ResponseRental;
+import com.bns.bookhubservice.vo.request.RequestRental;
+import com.bns.bookhubservice.vo.response.ResponseRental;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -24,7 +25,7 @@ public class RentalController {
 
     // 대여 정보 저장
     @PostMapping(path = "/v1/rental", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RentalEntity> createBook(@RequestBody RentalEntity requestParam) throws Exception {
+    public ResponseEntity<RentalEntity> createBook(@RequestBody RequestRental requestParam) throws Exception {
         RentalEntity rentalEntity = rentalService.create(requestParam);
         return ResponseEntity.status(HttpStatus.OK).body(rentalEntity);
     }

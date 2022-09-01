@@ -3,6 +3,7 @@ package com.bns.bookhubservice.service;
 import com.bns.bookhubservice.dto.BookDto;
 import com.bns.bookhubservice.entity.BookEntity;
 import com.bns.bookhubservice.repository.BookRepository;
+import com.bns.bookhubservice.vo.request.RequestBook;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +22,11 @@ public class BookService {
     @Autowired private BookRepository bookRepository;
 
     // 도서 정보 저장
-    public BookEntity create(BookEntity bookEntity) throws Exception {
+    public BookEntity create(RequestBook requestBook) throws Exception {
+        BookEntity bookEntity = new ModelMapper().map(requestBook, BookEntity.class);
+        bookEntity.setRented(false);
+        bookEntity.setRentCount(0);
+        bookEntity.setRegDate(LocalDate.now());
         bookRepository.save(bookEntity);
         return BookEntity.builder().build();
     }

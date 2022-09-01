@@ -3,7 +3,8 @@ package com.bns.bookhubservice.controller;
 import com.bns.bookhubservice.dto.BookDto;
 import com.bns.bookhubservice.entity.BookEntity;
 import com.bns.bookhubservice.service.BookService;
-import com.bns.bookhubservice.vo.ResponseBook;
+import com.bns.bookhubservice.vo.request.RequestBook;
+import com.bns.bookhubservice.vo.response.ResponseBook;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -25,7 +26,7 @@ public class BookController {
 
     // 도서 정보 저장
     @PostMapping(path = "/v1/book", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BookEntity> createBook(@RequestBody BookEntity requestParam) throws Exception {
+    public ResponseEntity<BookEntity> createBook(@RequestBody RequestBook requestParam) throws Exception {
         BookEntity bookEntity = bookService.create(requestParam);
         return ResponseEntity.status(HttpStatus.OK).body(bookEntity);
     }

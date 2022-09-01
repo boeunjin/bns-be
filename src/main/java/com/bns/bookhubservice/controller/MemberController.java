@@ -3,20 +3,17 @@ package com.bns.bookhubservice.controller;
 import com.bns.bookhubservice.dto.MemberDto;
 import com.bns.bookhubservice.entity.MemberEntity;
 import com.bns.bookhubservice.service.MemberService;
-import com.bns.bookhubservice.vo.ResponseMember;
+import com.bns.bookhubservice.vo.request.RequestMember;
+import com.bns.bookhubservice.vo.response.ResponseMember;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @Api(value = "MemberController v1", tags = "회원정보 API")
@@ -30,14 +27,14 @@ public class MemberController {
 
     @PostMapping(path = "/v1/members", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("회원가입")
-    public ResponseEntity<MemberEntity> createMember(@RequestBody MemberEntity requestParam) throws Exception {
+    public ResponseEntity<MemberEntity> createMember(@RequestBody RequestMember requestParam) throws Exception {
         MemberEntity memberEntity = memberService.create(requestParam);
         return ResponseEntity.status(HttpStatus.OK).body(memberEntity);
     }
     //OIDC 회원 가입
     @PostMapping(path = "/v1/oidcMembers", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation("oidc 회원가입")
-    public ResponseEntity<MemberEntity> createOIDCMember(@RequestBody MemberEntity requestParam) throws Exception {
+    public ResponseEntity<MemberEntity> createOIDCMember(@RequestBody RequestMember requestParam) throws Exception {
         MemberEntity memberEntity = memberService.create(requestParam);
         return ResponseEntity.status(HttpStatus.OK).body(memberEntity);
     }
