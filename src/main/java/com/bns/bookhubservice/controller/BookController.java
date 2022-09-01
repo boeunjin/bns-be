@@ -42,6 +42,14 @@ public class BookController {
         return list;
     }
 
+    @GetMapping(path="/v1/books/search/dsl", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<BookDto>> selectBookList(@RequestParam(required = false) String title) throws Exception {
+
+        List<BookDto> list = bookService.selectBookList(title);
+
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
     // 도서 정보 조회
     @GetMapping(value = "/v1/book/{id}")
     public ResponseEntity<ResponseBook> getBookById(@PathVariable("id") Long id) throws Exception {

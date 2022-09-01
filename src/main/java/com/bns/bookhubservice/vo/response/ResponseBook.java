@@ -6,7 +6,6 @@ import java.time.LocalDate;
 
 @Data
 public class ResponseBook {
-    private Long id;
     private String title;
     private String thumbnailUrl;
     private String author;

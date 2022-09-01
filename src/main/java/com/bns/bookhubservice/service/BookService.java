@@ -2,6 +2,7 @@ package com.bns.bookhubservice.service;
 
 import com.bns.bookhubservice.dto.BookDto;
 import com.bns.bookhubservice.entity.BookEntity;
+import com.bns.bookhubservice.repository.BookCustomRepository;
 import com.bns.bookhubservice.repository.BookRepository;
 import com.bns.bookhubservice.vo.request.RequestBook;
 import lombok.Data;
@@ -20,6 +21,7 @@ import java.util.Optional;
 @Service("bookService")
 public class BookService {
     @Autowired private BookRepository bookRepository;
+    @Autowired private BookCustomRepository bookCustomRepository;
 
     // 도서 정보 저장
     public BookEntity create(RequestBook requestBook) throws Exception {
@@ -34,6 +36,10 @@ public class BookService {
     // 도서 검색 - 제목
     public List<BookEntity> getBookByTitle(String title) throws Exception {
         return bookRepository.findBooksByTitleLike("%"+title+"%");
+    }
+
+    public List<BookDto> selectBookList(String title) throws Exception {
+        return bookCustomRepository.selectBookList(title);
     }
 
     // 도서 정보 조회
