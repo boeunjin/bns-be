@@ -1,23 +1,23 @@
 server:
   port: 5000
-  ssl:
-    enabled: true
-    key-store: keystore.p12
-    key-store-password: elwlahs21@
-    key-store-type: PKCS12
-    key-alias: bns-ssl
-    tomcat:
-      threads:
-        max: 512
-    servlet:
-      context-path: /
-      encoding:
-        charset: UTF-8
-        enabled: true
-        force: true
-      session:
-        cookie:
-          secure: false
+#  ssl:
+#    enabled: true
+#    key-store: keystore.p12
+#    key-store-password: elwlahs21@
+#    key-store-type: PKCS12
+#    key-alias: bns-ssl
+#    tomcat:
+#      threads:
+#        max: 512
+#    servlet:
+#      context-path: /
+#      encoding:
+#        charset: UTF-8
+#        enabled: true
+#        force: true
+#      session:
+#        cookie:
+#          secure: false
 spring:
   application:
     name: bookhub-service
@@ -60,7 +60,7 @@ spring:
             client-secret: ${CLIENT_SECRET} #"f012e5d286ba1f9e02dc94bbd81afa98"
             scope: openid, email
 
-            #redirect-uri: https://be.uplusbookhub.site/login/oauth2/code/slack
+            redirect-uri: https://be.uplusbookhub.site/login/oauth2/code/slack
 
             #"{baseUrl}/{action}/oauth2/code/{registrationId}" # (== http://localhost:8080/login/oauth2/code/slack)
             #client-name: Slack
