@@ -54,7 +54,7 @@ public class MemberService {
         MemberEntity memberEntity = memberRepository.findBySlackId(slackId);
 //        return memberRepository.findById();
         if (memberEntity == null ){
-            throw new Exception();
+            return null;
         }
         MemberDto memberDto = new ModelMapper().map(memberEntity, MemberDto.class);
         return memberDto.getLocation();

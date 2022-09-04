@@ -3,7 +3,7 @@
 insert into members (id, username, email, team, location, slack_id, reg_date) values ('1', '진보은', 'boeunjin@lguplus.co.kr', '클라우드아키텍처팀', '마곡사옥/8층', 'aaa', '2022-08-21');
 insert into members (id, username, email, team, location, slack_id, reg_date) values ('2', '이찬규', 'changyulee@lguplus.co.kr', '클라우드아키텍처팀', '마곡사옥/8층', 'bbb','2022-08-22');
 insert into members (id, username, email, team, location, slack_id, reg_date) values ('3', '이대영', 'deayounglee@lguplus.co.kr', '클라우드CoE팀', '마곡사옥/8층', 'ccc','2022-08-22');
-insert into members (id, username, email, team, location, slack_id, reg_date) values ('4', '양지원', 'jiwonyang@lguplus.co.kr', '클라우드솔루션엔지니어링팀', '마곡사옥/8층', 'U03B9TEG9T8','2022-08-22');
+insert into members (id, username, email, team, location, slack_id, reg_date) values ('4', '양지원', 'jiwonyang@lguplus.co.kr', '클라우드솔루션엔지니어링팀', '마곡사옥/8층', 'U03B9TEG9T9','2022-08-22');
 insert into members (id, username, email, team, location, slack_id, reg_date) values ('5', '이지훈', 'jihoonlee@lguplus.co.kr', '클라우드플랫폼엔지니어링팀', '마곡사옥/8층', 'U03BJBUS8CV','2022-08-22');
 insert into members (id, username, email, team, location, slack_id, reg_date) values ('6', '오혜영', 'eongoh@lguplus.co.kr', 'IPTV서비스개발1팀', '역삼 메가존', 'U037EG0PYN5','2022-08-22');
 insert into members (id, username, email, team, location, slack_id, reg_date) values ('7', '한서영', 'syhan622@lguplus.co.kr', '서비스프로토타입팀', '마곡사옥/8층', 'U036NDVDGNA','2022-08-22');

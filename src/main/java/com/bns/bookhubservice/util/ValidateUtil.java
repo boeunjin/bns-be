@@ -42,16 +42,5 @@ public class ValidateUtil {
         }
         return true;
     }
-    public boolean isEnrollUser(String id){
-        boolean check = true;
-        try {
-            String location = memberService.getMemberLocation(id);
 
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-
-        }
-        return check;
-    }
 }
