@@ -22,7 +22,7 @@ public class BookDto {
 
     private int ownerId;
 
-//    private boolean isRented;
+    private boolean isRented;
 //    private int rentCount;
 
 //    private LocalDate regDate;

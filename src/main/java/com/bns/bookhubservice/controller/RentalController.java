@@ -6,6 +6,7 @@ import com.bns.bookhubservice.service.RentalService;
 import com.bns.bookhubservice.vo.request.RequestRental;
 import com.bns.bookhubservice.vo.response.ResponseRental;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class RentalController {
 
     // 대여 정보 저장
     @PostMapping(path = "/v1/rental", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation("대여 정보 저장")
     public ResponseEntity<RentalEntity> createBook(@RequestBody RequestRental requestParam) throws Exception {
         RentalEntity rentalEntity = rentalService.create(requestParam);
         return ResponseEntity.status(HttpStatus.OK).body(rentalEntity);
@@ -32,6 +34,7 @@ public class RentalController {
 
     // 대여 정보 조회
     @GetMapping(value = "/v1/rental/{id}")
+    @ApiOperation("id 조건으로 대여 정보 조회")
     public ResponseEntity<ResponseRental> getRentalById(@PathVariable("id") Long id) throws Exception {
         RentalDto rentalDto = rentalService.getRentalById(id);
         ResponseRental result = new ModelMapper().map(rentalDto, ResponseRental.class);
@@ -41,6 +44,7 @@ public class RentalController {
 
     // 대여 정보 업데이트
     @PatchMapping(value = "v1/rental/return/{id}")
+    @ApiOperation("대여 정보 업데이트")
     public ResponseEntity<ResponseRental> updateRental(@PathVariable("id") Long id){
         RentalDto rentalDto = rentalService.updateRental(id);
         ResponseRental responseRental = new ModelMapper().map(rentalDto, ResponseRental.class);

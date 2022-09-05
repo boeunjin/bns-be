@@ -18,9 +18,9 @@ public class BookCustomRepositoryImpl implements BookCustomRepository {
 
     @PersistenceContext private EntityManager em;
 
-    // 도서 검색 - 제목 포함 조건으로 검색 후 대여횟수 순 정렬
+    // QueryDSL 도서 검색 결과 목록 조회
     @Override
-    public List<BookDto> selectBookList(String title){
+    public List<BookDto> searchBooks(String title){
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         QBookEntity book = new QBookEntity("tm");
@@ -42,9 +42,9 @@ public class BookCustomRepositoryImpl implements BookCustomRepository {
         return result;
     }
 
-    @Override
-    public List<MemberEntity> selectOwnerList(int id) {
-        return null;
-    }
+//    @Override
+//    public List<MemberEntity> selectOwnerList(int id) {
+//        return null;
+//    }
 
 }

@@ -10,8 +10,9 @@ import java.util.List;
 @Repository
 public interface BookCustomRepository {
 
-    public List<BookDto> selectBookList(String title);
+    // QueryDSL 도서 검색 결과 목록 조회
+    public List<BookDto> searchBooks(String title);
 
-    public List<MemberEntity> selectOwnerList(int id);
+//    public List<MemberEntity> selectOwnerList(int id);
 
 }

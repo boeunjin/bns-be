@@ -25,25 +25,7 @@ public class MemberService {
         return MemberEntity.builder().build();
     }
 
-    // 회원 정보 조회
-    public MemberDto getMemberBySlackId(String slackId) throws Exception {
-        MemberEntity memberEntity = memberRepository.findBySlackId(slackId);
-//        return memberRepository.findById();
-        if (memberEntity == null ){
-            throw new Exception();
-        }
-        MemberDto memberDto = new ModelMapper().map(memberEntity, MemberDto.class);
-        return memberDto;
-    }
-    public MemberDto getMemberByMemberName(String name) throws Exception {
-        MemberEntity memberEntity = memberRepository.findByUsername(name);
-//        return memberRepository.findById();
-        if (memberEntity == null ){
-            throw new Exception();
-        }
-        MemberDto memberDto = new ModelMapper().map(memberEntity, MemberDto.class);
-        return memberDto;
-    }
+    // id 조건으로 회원 정보 조회
     public MemberDto getMemberById(Long id) throws Exception {
         MemberEntity memberEntity = memberRepository.findById(id);
 //        return memberRepository.findById();
@@ -54,6 +36,29 @@ public class MemberService {
         return memberDto;
     }
 
+    // slack id 조건으로 회원 정보 조회
+    public MemberDto getMemberBySlackId(String slackId) throws Exception {
+        MemberEntity memberEntity = memberRepository.findBySlackId(slackId);
+//        return memberRepository.findById();
+        if (memberEntity == null ){
+            throw new Exception();
+        }
+        MemberDto memberDto = new ModelMapper().map(memberEntity, MemberDto.class);
+        return memberDto;
+    }
+
+    // 회원 이름 조건으로 회원 정보 조회
+    public MemberDto getMemberByUsername(String username) throws Exception {
+        MemberEntity memberEntity = memberRepository.findByUsername(username);
+//        return memberRepository.findById();
+        if (memberEntity == null ){
+            throw new Exception();
+        }
+        MemberDto memberDto = new ModelMapper().map(memberEntity, MemberDto.class);
+        return memberDto;
+    }
+
+    // 회원 근무지 조회
     public String getMemberLocation(String slackId) throws Exception {
         MemberEntity memberEntity = memberRepository.findBySlackId(slackId);
 //        return memberRepository.findById();
