@@ -23,7 +23,7 @@ public class BookCustomRepositoryImpl implements BookCustomRepository {
     public List<BookDto> searchBooks(String title){
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
-        QBookEntity book = new QBookEntity("tm");
+        QBookEntity book = new QBookEntity("tb");
 
         List<BookDto> result =
                 queryFactory
