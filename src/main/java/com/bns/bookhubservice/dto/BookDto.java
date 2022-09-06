@@ -20,7 +20,7 @@ public class BookDto {
     private String author;
     private String publisher;
 
-    private int ownerId;
+    private String ownerId;
 
     private boolean isRented;
 //    private int rentCount;

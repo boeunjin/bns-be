@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class RequestRental {
-    private int memberId;
+    private String proposerId;
     private int bookId;
-    private int ownerId;
+    private String ownerId;
 }

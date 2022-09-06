@@ -9,6 +9,6 @@ public class RequestBook {
     private String author;
     private String publisher;
 
-    private int ownerId;
+    private String ownerId;
 
 }

@@ -25,9 +25,9 @@ public class QRentalEntity extends EntityPathBase<RentalEntity> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final NumberPath<Integer> memberId = createNumber("memberId", Integer.class);
+    public final StringPath ownerId = createString("ownerId");
 
-    public final NumberPath<Integer> ownerId = createNumber("ownerId", Integer.class);
+    public final StringPath proposerId = createString("proposerId");
 
     public final DatePath<java.time.LocalDate> startDate = createDate("startDate", java.time.LocalDate.class);
 

@@ -42,9 +42,4 @@ public class BookCustomRepositoryImpl implements BookCustomRepository {
         return result;
     }
 
-//    @Override
-//    public List<MemberEntity> selectOwnerList(int id) {
-//        return null;
-//    }
-
 }

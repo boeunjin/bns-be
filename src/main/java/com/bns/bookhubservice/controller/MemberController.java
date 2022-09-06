@@ -1,5 +1,6 @@
 package com.bns.bookhubservice.controller;
 
+import com.bns.bookhubservice.dto.DetailDto;
 import com.bns.bookhubservice.dto.MemberDto;
 import com.bns.bookhubservice.entity.MemberEntity;
 import com.bns.bookhubservice.service.MemberService;
@@ -14,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Api(value = "MemberController v1", tags = "회원정보 API")
@@ -49,6 +52,7 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    // slack id 조건으로 회원 정보 조회
     @GetMapping (value = "/v1/member/slackId")
     @ApiOperation("slack id 조건으로 회원 정보 조회")
     public ResponseEntity<ResponseMember> getMemberBySlackId(@RequestParam(required = false)String slackId) throws Exception {
@@ -70,5 +74,12 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    // QueryDSL 소유자 목록 조회
+    @GetMapping(path="/v1/members/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation("QueryDSL 소유자 목록 조회")
+    public ResponseEntity<List<DetailDto>> searchMembers(@RequestParam(required = false) String title) throws Exception {
+        List<DetailDto> list = memberService.searchMembers(title);
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
 
 }

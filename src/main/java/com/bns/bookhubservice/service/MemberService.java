@@ -1,7 +1,9 @@
 package com.bns.bookhubservice.service;
 
+import com.bns.bookhubservice.dto.DetailDto;
 import com.bns.bookhubservice.dto.MemberDto;
 import com.bns.bookhubservice.entity.MemberEntity;
+import com.bns.bookhubservice.repository.MemberCustomRepository;
 import com.bns.bookhubservice.repository.MemberRepository;
 import com.bns.bookhubservice.vo.request.RequestMember;
 import org.modelmapper.ModelMapper;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service("memberService")
@@ -16,6 +19,8 @@ public class MemberService {
 
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private MemberCustomRepository memberCustomRepository;
 
     // 회원 가입
     public MemberEntity create(RequestMember requestMember) throws Exception {
@@ -67,6 +72,11 @@ public class MemberService {
         }
         MemberDto memberDto = new ModelMapper().map(memberEntity, MemberDto.class);
         return memberDto.getLocation();
+    }
+
+    // 도서 소유자 목록 조회
+    public List<DetailDto> searchMembers(String title) throws Exception {
+        return memberCustomRepository.searchMembers(title);
     }
 
 }

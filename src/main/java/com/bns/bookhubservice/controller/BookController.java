@@ -1,10 +1,12 @@
 package com.bns.bookhubservice.controller;
 
 import com.bns.bookhubservice.dto.BookDto;
+import com.bns.bookhubservice.dto.MemberDto;
 import com.bns.bookhubservice.entity.BookEntity;
 import com.bns.bookhubservice.service.BookService;
 import com.bns.bookhubservice.vo.request.RequestBook;
 import com.bns.bookhubservice.vo.response.ResponseBook;
+import com.bns.bookhubservice.vo.response.ResponseMember;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

@@ -6,20 +6,16 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
 @EqualsAndHashCode(callSuper = false)
-public class RentalDto {
-    private Long id;
-
-    private String proposerId;
-    private int bookId;
-    private String ownerId;
-
-    private LocalDate startDate;
-    private LocalDate endDate;
+public class DetailDto {
+    private boolean isRented;
+    private String username;
+    private String email;
+    private String team;
+    private String location;
+    private int rent_count;
 }
