@@ -17,6 +17,9 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 
 @Slf4j
 @Component
@@ -42,6 +45,12 @@ public class CustomOAuth2UserService extends OidcUserService {
         }
 
         return oidcUser;
+    }
+    private void MakeCookie(HttpServletResponse response, String name, String value){
+        log.info("쿠키 생성");
+        Cookie cookie = new Cookie(name,value);
+        cookie.setMaxAge(30*60);
+        response.addCookie(cookie);
     }
     private void processOAuth2User(OidcUserRequest userRequest, OidcUser oidcUser) {
         OAuth2UserInfo oAuth2UserInfo = new OAuth2UserInfo(oidcUser.getAttributes());

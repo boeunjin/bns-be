@@ -71,6 +71,7 @@ public class SecurityLoginSuccessHandler extends SavedRequestAwareAuthentication
         //String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
         log.debug("targetulr"+targetUrl);
 
+
         if (Member_OAuth.equals(Boolean.TRUE)){
             return targetUrl+"signup";
         }

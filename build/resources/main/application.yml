@@ -1,23 +1,30 @@
+.env:
+  directory: "../secrets/"
+  filename: "info.env"
+
+
+
+
 server:
   port: 5000
-#  ssl:
-#    enabled: true
-#    key-store: keystore.p12
-#    key-store-password: elwlahs21@
-#    key-store-type: PKCS12
-#    key-alias: bns-ssl
-#    tomcat:
-#      threads:
-#        max: 512
-#    servlet:
-#      context-path: /
-#      encoding:
-#        charset: UTF-8
-#        enabled: true
-#        force: true
-#      session:
-#        cookie:
-#          secure: false
+  ssl:
+    enabled: true
+    key-store: keystore.p12
+    key-store-password: elwlahs21@
+    key-store-type: PKCS12
+    key-alias: bns-ssl
+    tomcat:
+      threads:
+        max: 512
+    servlet:
+      context-path: /
+      encoding:
+        charset: UTF-8
+        enabled: true
+        force: true
+      session:
+        cookie:
+          secure: false
 spring:
   application:
     name: bookhub-service
@@ -56,11 +63,11 @@ spring:
       client:
         registration:
           slack:
-            client-id: ${CLIENT_ID} #"3392925850004.3392957480676"
-            client-secret: ${CLIENT_SECRET} #"f012e5d286ba1f9e02dc94bbd81afa98"
+            client-id: ${env.CLIENT_ID} #"3392925850004.3392957480676"
+            client-secret: ${env.CLIENT_SECRET} #"f012e5d286ba1f9e02dc94bbd81afa98"
             scope: openid, email
 
-            redirect-uri: https://be.uplusbookhub.site/login/oauth2/code/slack
+            #redirect-uri: https://be.uplusbookhub.site/login/oauth2/code/slack
 
             #"{baseUrl}/{action}/oauth2/code/{registrationId}" # (== http://localhost:8080/login/oauth2/code/slack)
             #client-name: Slack
@@ -79,8 +86,8 @@ spring:
 
 
 slack:
-  user_token: ${USER_TOKEN} #xoxp-3392925850004-3383932553926-3942933825012-374932d35a812b603250d7831655b34d
-  bot_token: ${BOT_TOKEN} #xoxb-3392925850004-3925308931427-dCvYfpGYXemjs7k25xKqiS8K
+  user_token: ${env.USER_TOKEN} #xoxp-3392925850004-3383932553926-3942933825012-374932d35a812b603250d7831655b34d
+  bot_token: ${env.BOT_TOKEN} #xoxb-3392925850004-3925308931427-dCvYfpGYXemjs7k25xKqiS8K
   bot_id : U03T792TDCK   #bamboo_id
   channel:
     monitor: C03T61HDPB6
@@ -96,4 +103,6 @@ logging:
     org:
       hibernate:
         SQL: DEBUG
+
+
 
