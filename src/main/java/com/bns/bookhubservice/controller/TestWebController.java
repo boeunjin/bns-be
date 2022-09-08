@@ -5,9 +5,10 @@ import com.bns.bookhubservice.entity.MemberEntity;
 import com.bns.bookhubservice.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+
 
 @Controller
 @Slf4j
@@ -31,15 +32,9 @@ public class TestWebController {
         return "loginForm";
     }
 
-    @GetMapping("/joinForm")
+    @GetMapping("/signup")
     public String joinForm(){
         return "joinForm";
     }
-    @PostMapping("/join")
-	public String join(MemberEntity memberEntity) {
 
-        //memberRepository.save(memberEntity);
-
-		return "redirect:/main";
-	}
 }

@@ -1,9 +1,12 @@
 package com.bns.bookhubservice.config.oauth.handler;
 
+import com.bns.bookhubservice.config.oauth.CustomOAuth2UserService;
 import com.bns.bookhubservice.config.oauth.repository.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.bns.bookhubservice.util.CookieUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-import static com.bns.bookhubservice.config.oauth.CustomOAuth2UserService.Member_OAuth;
+import static com.bns.bookhubservice.config.oauth.CustomOAuth2UserService.*;
 import static com.bns.bookhubservice.config.oauth.repository.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
 
@@ -25,18 +28,20 @@ public class SecurityLoginSuccessHandler extends SavedRequestAwareAuthentication
     private final HttpCookieOAuth2AuthorizationRequestRepository
             httpCookieOAuth2AuthorizationRequestRepository;
 
+
 //    private final AppConfigProperties appConfigProperties;
 
 //    private final SessionService sessionService;
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
 
     public SecurityLoginSuccessHandler(
-            HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository){
-//            AppConfigProperties appConfigProperties,
-//            SessionService sessionService) {
+            HttpCookieOAuth2AuthorizationRequestRepository
+                    httpCookieOAuth2AuthorizationRequestRepository){
+
         this.httpCookieOAuth2AuthorizationRequestRepository =
                 httpCookieOAuth2AuthorizationRequestRepository;
-//        this.appConfigProperties = appConfigProperties;
-//        this.sessionService = sessionService;
+
     }
 
     @Override
@@ -50,6 +55,7 @@ public class SecurityLoginSuccessHandler extends SavedRequestAwareAuthentication
             return;
         }
         logger.debug("success success");
+
         clearAuthenticationAttributes(request, response);
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
@@ -61,20 +67,21 @@ public class SecurityLoginSuccessHandler extends SavedRequestAwareAuthentication
         Optional<String> redirectUri =
                 CookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME).map(Cookie::getValue);
 
-//        if (redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
-//            throw new BusinessException(
-//                    " Unauthorized Redirect URI", StatusCodeConstants.LOGIN_FAIL);
-//        }
-//
-//        LoginResp loginOidcResp = sessionService.loginOidc(authentication);
-        String targetUrl = "https://service.uplusbookhub.site/";//redirectUri.orElse(getDefaultTargetUrl());
-        log.debug("targetulr"+targetUrl);
+        String targetUrl = "https://service.uplusbookhub.site/";
+        //String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
+        log.debug("target_url"+targetUrl);
 
-        if (Member_OAuth.equals(Boolean.FALSE)){
+
+        if (Member_OAuth.equals(Boolean.TRUE)){
+            CookieUtil.addCookie(response,"Email",CookieUtil.serialize(Email),30*60);
+            CookieUtil.addCookie(response,"ID",CookieUtil.serialize(Id),30*60);
+
             return targetUrl+"signup";
         }
         else{
-        return targetUrl+"main";}
+            CookieUtil.addCookie(response,"ID",CookieUtil.serialize(Id),30*60);
+            return targetUrl+"main";
+        }
     }
 
     protected void clearAuthenticationAttributes(
@@ -84,22 +91,4 @@ public class SecurityLoginSuccessHandler extends SavedRequestAwareAuthentication
                 request, response);
     }
 
-//    private boolean isAuthorizedRedirectUri(String uri) {
-//        URI clientRedirectUri = URI.create(uri);
-//
-//        return appConfigProperties.getOauth2().getAuthorizedRedirectUris().stream()
-//                .anyMatch(
-//                        authorizedRedirectUri -> {
-//                            // Only validate host and port. Let the clients use different paths if
-//                            // they want to
-//                            URI authorizedURI = URI.create(authorizedRedirectUri);
-//                            if (authorizedURI
-//                                    .getHost()
-//                                    .equalsIgnoreCase(clientRedirectUri.getHost())
-//                                    && authorizedURI.getPort() == clientRedirectUri.getPort()) {
-//                                return true;
-//                            }
-//                            return false;
-//                        });
-//    }
 }
