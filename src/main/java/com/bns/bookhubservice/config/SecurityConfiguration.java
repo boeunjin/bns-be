@@ -18,7 +18,10 @@ import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.header.writers.frameoptions.WhiteListedAllowFromStrategy;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -95,6 +98,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 						.authenticated()
 					.and()
+				.headers()
+				.addHeaderWriter(
+						new XFrameOptionsHeaderWriter(
+								new WhiteListedAllowFromStrategy(Arrays.asList("localhost"))
+						)
+				)
+				.frameOptions().sameOrigin()
+				.and()
 				.oauth2Login()
 
 
