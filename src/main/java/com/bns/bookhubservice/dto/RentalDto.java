@@ -16,9 +16,9 @@ import java.time.LocalDate;
 public class RentalDto {
     private Long id;
 
-    private int memberId;
+    private String proposerId;
     private int bookId;
-    private int ownerId;
+    private String ownerId;
 
     private LocalDate startDate;
     private LocalDate endDate;

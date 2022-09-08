@@ -1,4 +1,4 @@
-package com.bns.bookhubservice.vo;
+package com.bns.bookhubservice.vo.response;
 
 import lombok.Data;
 

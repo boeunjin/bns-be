@@ -18,5 +18,5 @@ public class MemberDto {
     private String team;
     private String location;
     private String slackId;
-    private LocalDate regDate;
+//    private LocalDate regDate;
 }
