@@ -18,7 +18,10 @@ import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.header.writers.frameoptions.WhiteListedAllowFromStrategy;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -70,7 +73,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http
-
 				.cors()
 					.and()
 				.sessionManagement()
@@ -81,8 +83,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					.disable()
 				.httpBasic()
 					.disable()
-				.exceptionHandling()
-					.and()
 				.authorizeRequests()
 					.antMatchers("/", "/joinForm", "/**/*.html", "/**/*.css", "/**/*.js")
 						.permitAll()
@@ -90,9 +90,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						.permitAll()
 					.antMatchers("/swagger-resources/**","/swagger-ui/**","/v3/api-docs")
 						.permitAll()
+					.antMatchers("/h2-console/**")
+						.permitAll()
 					.anyRequest()
 
 						.authenticated()
+					.and()
+					.headers()
+						.addHeaderWriter(
+							new XFrameOptionsHeaderWriter(
+								new WhiteListedAllowFromStrategy(Arrays.asList("localhost"))    // 여기!
+							)
+						)
+					.frameOptions().sameOrigin()
 					.and()
 				.oauth2Login()
 

@@ -16,19 +16,21 @@ $(document).ready(function () {
             };
             $.ajax({
                 type: 'POST',
-                url: '/join',
-                dataType: 'json',
+                url: '/slack/v1/join',
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(data),
-                async: false, //동기처리 (기본이 true)
+                async: true//동기처리 (기본이 true)
 
             }
-                ).done(function () {
-                alert('회원가입이 성공적으로 이루어 졌습니다.');
-                window.location.href = '/main';
+
+                ).done(function (){
+                    console.log("success");
+                    location.replace('/main');
+
             }).fail(function (error) {
                 alert(JSON.stringify(error));
             })
+
         }
     });
 });

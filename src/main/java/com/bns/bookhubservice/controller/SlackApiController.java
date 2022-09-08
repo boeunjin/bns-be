@@ -3,6 +3,7 @@ import com.bns.bookhubservice.entity.RentalJson;
 import com.bns.bookhubservice.entity.json.BlockActionsPayloads;
 import com.bns.bookhubservice.entity.json.SlackJson;
 import com.bns.bookhubservice.service.GroupChatService;
+import com.bns.bookhubservice.util.CookieUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,10 +15,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.SerializationUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Base64;
 import java.util.Map;
+
+import static com.bns.bookhubservice.config.oauth.CustomOAuth2UserService.Email;
 
 
 @RestController
@@ -94,6 +101,24 @@ public class SlackApiController {
     @GetMapping(value = "/slack/v1/updateRentalBook")
     public void updateRentalBook() {
         System.out.println("update");
+    }
+
+
+    @ApiOperation(value = "추가 회원 정보 떨어지는 곳")
+    @PostMapping(value = "/slack/v1/join",produces = MediaType.APPLICATION_JSON_VALUE)
+    public void join(@RequestBody Map<String, String> data, HttpServletRequest request) {
+        log.info(data.get("NAME"));
+
+
+
+
+    }
+
+
+    @GetMapping("/slack/v1/getCookie1")
+    public void getCookie1(@CookieValue String useremail, @CookieValue("useremail") String umail) {
+        log.info("실행");
+        log.info(umail);
     }
 
 
