@@ -67,7 +67,7 @@ spring:
             client-secret: ${env.CLIENT_SECRET}
             scope: openid, email
 
-            #redirect-uri: https://be.uplusbookhub.site/login/oauth2/code/slack
+            redirect-uri: https://be.uplusbookhub.site/login/oauth2/code/slack
 
             #"{baseUrl}/{action}/oauth2/code/{registrationId}" # (== http://localhost:8080/login/oauth2/code/slack)
             #client-name: Slack
@@ -93,7 +93,7 @@ slack:
 
 app:
   cors:
-    allowedOrigins: https://localhost:5000, , http://localhost:5000 , https://service.uplusbookhub.site
+    allowedOrigins: https://localhost:5000, , http://localhost:5000 , https://service.uplusbookhub.site , https://be.uplusbookhub.site
 ### Logging Level
 logging:
   level:
