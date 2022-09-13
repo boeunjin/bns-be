@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Service("rentalService")
@@ -34,13 +35,25 @@ public class RentalService {
         return rentalDto;
     }
 
+    public Boolean getRentalByTrippleId(String memberId, String bookId, Boolean isRental) throws Exception {
+        RentalEntity rentalEntity = rentalRepository.findByMemberIdAndBookIdAndReturnFalse(memberId,bookId,isRental);
+        if(rentalEntity == null){
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
+
+    public List<RentalEntity> getRentalDate(LocalDate now) throws Exception{
+        return rentalRepository.findByEndDateLessThanEqual(now);
+    }
+
     // 대여 정보 업데이트
     @Transactional
     public RentalDto updateRental(Long id){
         RentalEntity rentalEntity = rentalRepository.findById(id);
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        rentalEntity.setEndDate(LocalDate.now());
+        rentalEntity.setEndDate(LocalDate.now().plusWeeks(1));
         rentalRepository.save(rentalEntity);
         rentalEntity.builder().build();
         RentalDto rentalDto = mapper.map(rentalEntity, RentalDto.class);

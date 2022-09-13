@@ -4,14 +4,14 @@ import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 
-public class BlokitBuilder {
+public class BookInfoBlokitBuilder {
 
-    public ArrayList<Object> blockit(String owner, String myself , String bookName, String author, String image , String place){
+    public ArrayList<Object> blockit(String owner, String myself , String bookId, String bookName, String author, String image , String place){
         ArrayList<Object> blocks =new ArrayList<Object>();
         //Header
         JSONObject ji  =new JSONObject();
         ji.put("emoji",true);
-        ji.put("text","안녕하세요, 책을 빌리고 싶어요");
+        ji.put("text","안녕하세요, 2주 동안 이 책을 빌리고 싶어요");
         ji.put("type","plain_text");
 
 
@@ -81,7 +81,7 @@ public class BlokitBuilder {
         ji31.put("type","button");
         ji31.put("text",jio31);
         ji31.put("style","primary");
-        ji31.put("value","success");
+        ji31.put("value","success "+bookId);
         //ji31.put("url","https://www.google.com");
         //ji31.put("url","http://localhost:5000/slack/v1/updateRentalBook");
 

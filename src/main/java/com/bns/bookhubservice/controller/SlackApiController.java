@@ -1,8 +1,16 @@
 package com.bns.bookhubservice.controller;
+import com.bns.bookhubservice.dto.BookDto;
+import com.bns.bookhubservice.entity.MemberEntity;
+import com.bns.bookhubservice.entity.RentalEntity;
 import com.bns.bookhubservice.entity.RentalJson;
 import com.bns.bookhubservice.entity.json.BlockActionsPayloads;
 import com.bns.bookhubservice.entity.json.SlackJson;
-import com.bns.bookhubservice.service.GroupChatService;
+import com.bns.bookhubservice.service.BookService;
+import com.bns.bookhubservice.service.RentalService;
+import com.bns.bookhubservice.service.slack.GroupChatService;
+import com.bns.bookhubservice.service.MemberService;
+import com.bns.bookhubservice.service.slack.RentalCompleteService;
+import com.bns.bookhubservice.service.slack.RentalSuccessService;
 import com.bns.bookhubservice.util.CookieUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.Api;
@@ -15,16 +23,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
-import org.springframework.util.SerializationUtils;
+import java.time.LocalDate;
 import org.springframework.web.bind.annotation.*;
-
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Base64;
+import java.time.ZoneId;
 import java.util.Map;
 
-import static com.bns.bookhubservice.config.oauth.CustomOAuth2UserService.Email;
 
 
 @RestController
@@ -34,6 +39,17 @@ public class SlackApiController {
 
     @Autowired
     private final GroupChatService groupChatService;
+
+    @Autowired
+    private MemberService memberService;
+    @Autowired
+    private BookService bookService;
+    @Autowired
+    private RentalService rentalService;
+    @Autowired
+    private RentalSuccessService rentalSuccessService;
+    @Autowired
+    private RentalCompleteService rentalCompleteService;
 
     public SlackApiController(GroupChatService groupChatService) {this.groupChatService = groupChatService;}
 
@@ -67,29 +83,88 @@ public class SlackApiController {
 
     @ApiOperation(value = "Slack InterActivity")
     @PostMapping(value = "/slack/interactive",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public  void interactiveTest(@RequestBody MultiValueMap<String, String> data) throws ParseException, JsonProcessingException {
+    public  void interactiveTest(@RequestBody MultiValueMap<String, String> data
+                //, @CookieValue("ID") String Id
+                                 ) throws ParseException, JsonProcessingException {
         BlockActionsPayloads blockActionsPayloads = new BlockActionsPayloads(data);
-        if (blockActionsPayloads.getButton_value().equals("success")){
+
+        String value =blockActionsPayloads.getButton_value();
+        //String borrower = (String) CookieUtil.deserializeBasic(Id);
+        String borrower = "U03B9TEG9T8";
+        String[] result = value.split(" ");
+
+        if (value.contains("success")){
+
             //Database 책 대여 상태 업데이트 서비스(대여 날짜 및
-            log.info("sss success");
-            blockActionsPayloads.setJson();
-            log.info(blockActionsPayloads.getJson().toString());
+
+
+            if (!blockActionsPayloads.getUser_id().equals(borrower)) //책 주인만 빌려줄 수 있게 제한
+            {
+
+                if(result[0].equals("success")){
+                    log.info("책 주인이 빌려준다"+result[1]);
+                    rentalSuccessService.successMessage(blockActionsPayloads.getChannel_id(),result[1]);
+                }
+                else{//return success
+                    log.info("책 대여 반납 완료");
+
+
+                }
+            }else
+            {
+                if (result[0].equals("rental_success")) {
+                    try {
+                        if (!rentalService.getRentalByTrippleId(borrower,result[1],Boolean.FALSE)){ // 버튼 한 번만 누르게
+                            String channel_id = blockActionsPayloads.getChannel_id();
+                            LocalDate now = LocalDate.now(ZoneId.of("Asia/Seoul"));
+                            LocalDate end = now.plusWeeks(2);
+                            RentalEntity rentalEntity =
+                                    RentalEntity.builder().memberId(borrower).bookId(result[1]).channelId(channel_id).isReturn(Boolean.FALSE).startDate(now).endDate(end).build();
+                            RentalEntity resultEntity = rentalService.create(rentalEntity);
+                            bookService.updateBookRent(Long.valueOf(result[1]));
+                            log.info("책 대여 완료");
+                            //책 대여 완료 되었다는 확인 메세지 보내기
+                            rentalCompleteService.completeMessage(channel_id,result[1],end);
+                        }
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+
         }
         else{
-            // 거절시 어떻게 하지?
-            log.info("sss fail");
+            if (!blockActionsPayloads.getUser_id().equals(borrower)){//책 주인만
+                if (result[0].equals("extend")){
+                    log.info("책 일주일 연장");
+                    rentalService.updateRental(Long.valueOf(result[1]));
+                }
+                else{
+                    // 거절시 어떻게 하지?
+                    log.info("책 주인이 거절한다");
+
+                }
+            }
 
         }
 
     }
 
     @ApiOperation(value = "책 대여하기")
-    @PostMapping(value="/slack/v1/createGroup", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value="/slack/v1/createGroup", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createGroup(@RequestBody Map<String, Object> data){
         try{
             RentalJson rentalJson = new RentalJson(data);
-            groupChatService.groupChat(rentalJson.getOwner(),rentalJson.getMyself(), rentalJson.getBookName(), rentalJson.getAuthor(), rentalJson.getImage());
+            Long id = Long.valueOf(rentalJson.getBookId());
+            BookDto bookDto = bookService.getBookById(id);
+
+            String bookName = bookDto.getTitle();
+            String bookAuthor = bookDto.getPublisher();
+            String bookImageUrl = bookDto.getThumbnailUrl();
+            groupChatService.groupChat(rentalJson.getOwner(),rentalJson.getMyself(),rentalJson.getBookId(), bookName, bookAuthor, bookImageUrl);
             rentalJson.setJson();
+            log.info(rentalJson.getJson()+"json");
             return new ResponseEntity<>(rentalJson.getJson(),HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(e.getCause().toString(), HttpStatus.BAD_REQUEST);
@@ -97,33 +172,32 @@ public class SlackApiController {
 
     }
 
-    @ApiOperation(value = "updataRentalBook")
-    @GetMapping(value = "/slack/v1/updateRentalBook")
-    public void updateRentalBook() {
-        System.out.println("update");
-    }
-
-
     @ApiOperation(value = "추가 회원 정보 떨어지는 곳")
-    @PostMapping(value = "/slack/v1/join",produces = MediaType.APPLICATION_JSON_VALUE)
-    public void join(@RequestBody Map<String, String> data, HttpServletRequest request) {
+    @PostMapping(value = "/slack/v1/join",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void join(@RequestBody Map<String, String> data, HttpServletRequest reqeuest,HttpServletResponse response,
+                     @CookieValue("Email") String Email, @CookieValue("ID") String Id) {
+        log.info((String) CookieUtil.deserializeBasic(Email));
+        log.info((String) CookieUtil.deserializeBasic(Id));
         log.info(data.get("NAME"));
+        MemberEntity memberEntity =
+                MemberEntity.builder()
+                                .username(data.get("NAME"))
+                                        .email((String) CookieUtil.deserializeBasic(Email))
+                                                .team(data.get("TEAM"))
+                                                        .location(data.get("BUILDING"))
+                                                                .slackId((String) CookieUtil.deserializeBasic(Id))
+                                                                        .regDate(LocalDate.now(ZoneId.of("Asia/Seoul"))).build();
 
 
+        CookieUtil.deleteCookie(reqeuest,response,"Email");
 
+        try {
+            memberService.create(memberEntity);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
     }
-
-
-    @GetMapping("/slack/v1/getCookie1")
-    public void getCookie1(@CookieValue String useremail, @CookieValue("useremail") String umail) {
-        log.info("실행");
-        log.info(umail);
-    }
-
-
-
-
 
 
 

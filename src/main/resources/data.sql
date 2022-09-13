@@ -26,16 +26,16 @@ insert into books (id, title, thumbnail_url, author, publisher, owner_id, is_ren
 insert into books (id, title, thumbnail_url, author, publisher, owner_id, is_rented, rent_count, reg_date) values ('11', 'SQL로 시작하는 데이터 분석', 'http://books.google.com/books/publisher/content?id=NXmAEAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE70IMlgJx-Mln5rFYvZTm6DrATVB5YjKe95idWn7vtc3qHTI4hsZy3uYYDxN1KY6YyVlH7M8nz2WKKzihViee0qCuEkVmz-IqRHMTO6X2URFkFqNjI1L8UT_oL_WbQ868C7K7r3j&source=gbs_api', '캐시 타니무라', '한빛미디어', '11', False, 0, '2022-08-12');
 insert into books (id, title, thumbnail_url, author, publisher, owner_id, is_rented, rent_count, reg_date) values ('12', '고객을 끌어오는 구글 애널리틱스4', 'http://books.google.com/books/publisher/content?id=bnRkEAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE727EdO_oIBgYZdR7PXMBj2o67j1e0LkQAxF29PBafFzxFUeYnnj4wUdA5ipXnKRFzvHFtL4kXMCNA0KvZlwwznSGebfDFQBzgcAxQ2AjPGl5sLbLwZwZiOYGsHUt1Jtlmjys8Km&source=gbs_api', '문준영', '한빛미디어', '12', False, 0, '2022-08-12');
 
-insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('1','1', '1', '12', '2022-08-12', null);
-insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('2','2', '2', '11', '2022-08-12', null);
-insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('3','3', '3', '10', '2022-08-12', null);
-insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('4','4', '4', '9', '2022-08-12', null);
-insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('5','5', '5', '8', '2022-08-12', null);
-insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('6','6', '6', '7', '2022-08-12', null);
-insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('7','7', '7', '6', '2022-08-12', null);
-insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('8','8', '8', '5', '2022-08-12', null);
-insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('9','9', '9', '4', '2022-08-12', null);
-insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('10','10', '10', '3', '2022-08-12', null);
-insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('11','11', '11', '2', '2022-08-12', null);
-insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('12','12', '12', '1', '2022-08-12', null);
+insert into rentals (id, member_id, book_id, channel_id, is_return, start_date, end_date) values ('1','U03B9TEG9T8', '1', 'C03TMEP9F2P',false, '2022-08-12', '2022-08-12');
+-- insert into rentals (id, member_id, book_id, channel_id, start_date, end_date) values ('2','U03B9TEG9T8', '2', 'C03TMEP9F2P', '2022-08-12', '2022-08-12');
+-- insert into rentals (id, member_id, book_id, channel_id, start_date, end_date) values ('3','U03B9TEG9T8', '3', 'C03TMEP9F2P', '2022-08-12', '2022-08-12');
+-- insert into rentals (id, member_id, book_id, channel_id, start_date, end_date) values ('4','U03B9TEG9T8', '4', 'C03TMEP9F2P', '2022-08-12', '2022-08-12');
+-- insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('5','5', '5', '8', '2022-08-12', null);
+-- insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('6','6', '6', '7', '2022-08-12', null);
+-- insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('7','7', '7', '6', '2022-08-12', null);
+-- insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('8','8', '8', '5', '2022-08-12', null);
+-- insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('9','9', '9', '4', '2022-08-12', null);
+-- insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('10','10', '10', '3', '2022-08-12', null);
+-- insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('11','11', '11', '2', '2022-08-12', null);
+-- insert into rentals (id, member_id, book_id, owner_id, start_date, end_date) values ('12','12', '12', '1', '2022-08-12', null);
 

@@ -19,6 +19,8 @@ public class BlockActionsPayloads {
     private String EventType = "N";
     private String user_id = null;
     private String button_value = null;
+    private String channel_id = null;
+
 
     private Map<String, String> result = new HashMap<>();
     private String json = null;
@@ -36,6 +38,9 @@ public class BlockActionsPayloads {
         if (EventType.equals("block_actions")) {
             JSONObject user = (JSONObject) json.get("user");
             this.user_id = (String) user.get("id");
+
+            JSONObject channel = (JSONObject) json.get("channel");
+            this.channel_id = (String) channel.get("id");
 
             List<Object> actions_list = (List<Object>) json.get("actions");
             JSONObject actions = (JSONObject) actions_list.get(0);

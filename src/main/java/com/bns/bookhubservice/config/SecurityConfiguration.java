@@ -86,7 +86,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.authorizeRequests()
 					.antMatchers("/", "/joinForm", "/**/*.html", "/**/*.css", "/**/*.js")
 						.permitAll()
-					.antMatchers("/bookhub-service/member/**","/slack/**")
+					.antMatchers("/bookhub-service/**","/slack/**")
 						.permitAll()
 					.antMatchers("/swagger-resources/**","/swagger-ui/**","/v3/api-docs")
 						.permitAll()

@@ -1,6 +1,6 @@
-package com.bns.bookhubservice.service;
-
-import com.bns.bookhubservice.entity.json.BlokitBuilder;
+package com.bns.bookhubservice.service.slack;
+import com.bns.bookhubservice.entity.json.BookInfoBlokitBuilder;
+import com.bns.bookhubservice.service.MemberService;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -29,13 +29,13 @@ public class GroupChatService {
     @Value("${slack.bot_token}")
     private String bot_token;
 
-    public BlokitBuilder blokitBuilder = new BlokitBuilder();
+    public BookInfoBlokitBuilder blokitBuilder = new BookInfoBlokitBuilder();
     @Autowired
     private MemberService memberService;
 
 
 
-    public void groupChat(String owner, String myself , String bookName, String author, String image){
+    public void groupChat(String owner, String myself , String bookId, String bookName, String author, String image){
         URL url = null;
 
         String users = owner+"%2C"+myself+"%2C"+id;
@@ -86,7 +86,7 @@ public class GroupChatService {
             http1.setRequestProperty("Authorization", "Bearer xoxb-3392925850004-3925308931427-dCvYfpGYXemjs7k25xKqiS8K");
             http1.setRequestProperty("Content-Type", "application/json");
 
-            String data = messageForm(channel_id,owner,myself,bookName,author,image, place);
+            String data = messageForm(channel_id,owner,myself,bookId, bookName,author,image, place);
             byte[] out = data.getBytes(StandardCharsets.UTF_8);
 
             OutputStream stream = http1.getOutputStream();
@@ -109,10 +109,10 @@ public class GroupChatService {
         }
     }
 
-    public String messageForm(String channel_id, String owner,String myself , String bookName, String author, String image, String place){
+    public String messageForm(String channel_id, String owner,String myself ,String bookId, String bookName, String author, String image, String place){
         JSONObject message = new JSONObject();
         //blockit builder 설정
-        ArrayList<Object> blocks = blokitBuilder.blockit(owner, myself, bookName, author, image, place);
+        ArrayList<Object> blocks = blokitBuilder.blockit(owner, myself, bookId, bookName, author, image, place);
 
         message.put("channel", channel_id);
         message.put("username", "Book Hub");

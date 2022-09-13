@@ -18,9 +18,10 @@ public class RentalEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int memberId;
-    private int bookId;
-    private int ownerId;
+    private String memberId;
+    private String bookId;
+    private String channelId;
+    private boolean isReturn;
 
     private LocalDate startDate;
     private LocalDate endDate;

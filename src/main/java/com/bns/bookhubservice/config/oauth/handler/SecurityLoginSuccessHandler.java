@@ -67,8 +67,8 @@ public class SecurityLoginSuccessHandler extends SavedRequestAwareAuthentication
         Optional<String> redirectUri =
                 CookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME).map(Cookie::getValue);
 
-        String targetUrl = "https://service.uplusbookhub.site/";
-        //String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
+        //String targetUrl = "https://service.uplusbookhub.site/";
+        String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
         log.debug("target_url"+targetUrl);
 
 
