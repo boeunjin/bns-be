@@ -110,7 +110,6 @@ public class SlackApiController {
                 else{//return success
                     log.info("책 대여 반납 완료");
 
-
                 }
             }else
             {
