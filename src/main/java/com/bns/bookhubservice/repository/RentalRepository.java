@@ -16,7 +16,7 @@ public interface RentalRepository extends JpaRepository<RentalEntity, String> {
     // 대여 정보 조회
     RentalEntity findById(Long id);
 
-    RentalEntity findByMemberIdAndBookIdAnd(String memberId, String bookId, Boolean isReturn);
+    RentalEntity findByMemberIdAndBookId(String memberId, String bookId);
 
     List<RentalEntity> findByEndDateLessThanEqual(LocalDate now);
 

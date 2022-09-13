@@ -14,17 +14,17 @@ import java.time.LocalDate;
 @SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 public class BookDto {
-    private Long id;
+//    private Long id;
     private String title;
     private String thumbnailUrl;
     private String author;
     private String publisher;
 
-    private int ownerId;
+    private String ownerId;
 
     private boolean isRented;
-    private int rentCount;
+//    private int rentCount;
 
-    private LocalDate regDate;
+//    private LocalDate regDate;
 
 }

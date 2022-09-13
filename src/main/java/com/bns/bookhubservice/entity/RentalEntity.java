@@ -23,6 +23,7 @@ public class RentalEntity {
     private String channelId;
     private boolean isReturn;
 
+
     private LocalDate startDate;
     private LocalDate endDate;
 }

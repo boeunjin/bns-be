@@ -20,6 +20,7 @@ public class RentalDto {
     private String bookId;
     private String channelId;
 
+
     private LocalDate startDate;
     private LocalDate endDate;
 }

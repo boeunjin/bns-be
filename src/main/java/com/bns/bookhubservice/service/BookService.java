@@ -2,7 +2,9 @@ package com.bns.bookhubservice.service;
 
 import com.bns.bookhubservice.dto.BookDto;
 import com.bns.bookhubservice.entity.BookEntity;
+import com.bns.bookhubservice.repository.BookCustomRepository;
 import com.bns.bookhubservice.repository.BookRepository;
+import com.bns.bookhubservice.vo.request.RequestBook;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,19 +22,21 @@ import java.util.Optional;
 @Service("bookService")
 public class BookService {
     @Autowired private BookRepository bookRepository;
+    @Autowired private BookCustomRepository bookCustomRepository;
 
     // 도서 정보 저장
-    public BookEntity create(BookEntity bookEntity) throws Exception {
+    public BookEntity create(RequestBook requestBook) throws Exception {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        BookEntity bookEntity = modelMapper.map(requestBook, BookEntity.class);
+        bookEntity.setRented(false);
+        bookEntity.setRentCount(0);
+        bookEntity.setRegDate(LocalDate.now(ZoneId.of("Asia/Seoul")));
         bookRepository.save(bookEntity);
         return BookEntity.builder().build();
     }
 
-    // 도서 검색 - 제목
-    public List<BookEntity> getBookByTitle(String title) throws Exception {
-        return bookRepository.findBooksByTitleLike("%"+title+"%");
-    }
-
-    // 도서 정보 조회
+    // id 조건으로 도서 정보 조회
     public BookDto getBookById(Long id) throws Exception {
         BookEntity bookEntity = bookRepository.findById(id);
         if(bookEntity == null){
@@ -40,7 +46,12 @@ public class BookService {
         return bookDto;
     }
 
-    // 도서 정보 업데이트 - 대여
+    // 제목 조건으로 도서 목록 조회
+    public List<BookEntity> getBooksByTitle(String title) throws Exception {
+        return bookRepository.findBooksByTitleLike("%"+title+"%");
+    }
+
+    // 대여 도서 정보 업데이트
     @Transactional
     public BookDto updateBookRent(Long id) {
         BookEntity bookEntity = bookRepository.findById(id);
@@ -55,7 +66,7 @@ public class BookService {
         return bookDto;
     }
 
-    // 도서 정보 업데이트 - 반납
+    // 반납 도서 정보 업데이트
     @Transactional
     public BookDto updateBookReturn(Long id){
         BookEntity bookEntity = bookRepository.findById(id);
@@ -67,6 +78,12 @@ public class BookService {
         return bookDto;
     }
 
-    // 도서 소유자 목록 조회
+    // QueryDSL 도서 검색 결과 목록 조회
+    public List<BookDto> searchBooks(String title) throws Exception {
+        return bookCustomRepository.searchBooks(title);
+    }
+
+
+
 
 }

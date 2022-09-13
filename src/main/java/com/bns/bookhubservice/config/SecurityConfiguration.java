@@ -87,7 +87,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					.antMatchers("/", "/joinForm", "/**/*.html", "/**/*.css", "/**/*.js")
 						.permitAll()
 					.antMatchers("/bookhub-service/**","/slack/**")
+
 						.permitAll()
+
 					.antMatchers("/swagger-resources/**","/swagger-ui/**","/v3/api-docs")
 						.permitAll()
 					.antMatchers("/h2-console/**")

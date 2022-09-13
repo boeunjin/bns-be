@@ -25,7 +25,7 @@ public class QBookEntity extends EntityPathBase<BookEntity> {
 
     public final BooleanPath isRented = createBoolean("isRented");
 
-    public final NumberPath<Integer> ownerId = createNumber("ownerId", Integer.class);
+    public final StringPath ownerId = createString("ownerId");
 
     public final StringPath publisher = createString("publisher");
 

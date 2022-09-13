@@ -17,7 +17,7 @@ public class Scheduler {
     @Autowired
     private RentalReturnService rentalReturnService;
 
-    @Scheduled(fixedRate = 10000) //10초
+    @Scheduled(fixedRate = 1000000) //10초
     //@Scheduled(cron = "00 23 * * *") //UST 23:00는 한국시간 08:00
     public void cronJobSch(){
         try {

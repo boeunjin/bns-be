@@ -3,6 +3,7 @@ package com.bns.bookhubservice.service;
 import com.bns.bookhubservice.dto.RentalDto;
 import com.bns.bookhubservice.entity.RentalEntity;
 import com.bns.bookhubservice.repository.RentalRepository;
+import com.bns.bookhubservice.vo.request.RequestRental;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 @Data
@@ -20,7 +22,13 @@ public class RentalService {
     @Autowired private RentalRepository rentalRepository;
 
     // 대여 정보 저장
-    public RentalEntity create(RentalEntity rentalEntity) throws Exception {
+    public RentalEntity create(RequestRental requestRental) throws Exception {
+        LocalDate now =LocalDate.now(ZoneId.of("Asia/Seoul"));
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        RentalEntity rentalEntity = modelMapper.map(requestRental, RentalEntity.class);
+        rentalEntity.setStartDate(now);
+        rentalEntity.setEndDate(now.plusWeeks(2));
         rentalRepository.save(rentalEntity);
         return RentalEntity.builder().build();
     }
@@ -35,8 +43,8 @@ public class RentalService {
         return rentalDto;
     }
 
-    public Boolean getRentalByTrippleId(String memberId, String bookId, Boolean isRental) throws Exception {
-        RentalEntity rentalEntity = rentalRepository.findByMemberIdAndBookIdAndReturnFalse(memberId,bookId,isRental);
+    public Boolean getRentalByTrippleId(String memberId, String bookId) throws Exception {
+        RentalEntity rentalEntity = rentalRepository.findByMemberIdAndBookId(memberId,bookId);
         if(rentalEntity == null){
             return Boolean.FALSE;
         }

@@ -14,11 +14,10 @@ public interface BookRepository extends JpaRepository<BookEntity, String> {
     // 도서 정보 저장
     BookEntity save (BookEntity bookEntity);
 
-    // 도서 검색 - 제목
-    List<BookEntity> findBooksByTitleLike(String title);
-
-    // 도서 정보 조회
+    // id 조건으로 도서 정보 조회
     BookEntity findById(Long id);
 
-    // 도서 소유자 목록 조회
+    // 제목 조건으로 도서 목록 조회
+    List<BookEntity> findBooksByTitleLike(String title);
+
 }

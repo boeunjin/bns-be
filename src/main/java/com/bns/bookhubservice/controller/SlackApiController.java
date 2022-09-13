@@ -12,6 +12,8 @@ import com.bns.bookhubservice.service.MemberService;
 import com.bns.bookhubservice.service.slack.RentalCompleteService;
 import com.bns.bookhubservice.service.slack.RentalSuccessService;
 import com.bns.bookhubservice.util.CookieUtil;
+import com.bns.bookhubservice.vo.request.RequestMember;
+import com.bns.bookhubservice.vo.request.RequestRental;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -84,13 +86,13 @@ public class SlackApiController {
     @ApiOperation(value = "Slack InterActivity")
     @PostMapping(value = "/slack/interactive",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public  void interactiveTest(@RequestBody MultiValueMap<String, String> data
-                //, @CookieValue("ID") String Id
+                , @CookieValue("ID") String Id
                                  ) throws ParseException, JsonProcessingException {
         BlockActionsPayloads blockActionsPayloads = new BlockActionsPayloads(data);
 
         String value =blockActionsPayloads.getButton_value();
-        //String borrower = (String) CookieUtil.deserializeBasic(Id);
-        String borrower = "U03B9TEG9T8";
+        String borrower = (String) CookieUtil.deserializeBasic(Id);
+        //String borrower = "U03B9TEG9T8";
         String[] result = value.split(" ");
 
         if (value.contains("success")){
@@ -114,13 +116,19 @@ public class SlackApiController {
             {
                 if (result[0].equals("rental_success")) {
                     try {
-                        if (!rentalService.getRentalByTrippleId(borrower,result[1],Boolean.FALSE)){ // 버튼 한 번만 누르게
+                        if (!rentalService.getRentalByTrippleId(borrower,result[1])){ // 버튼 한 번만 누르게
                             String channel_id = blockActionsPayloads.getChannel_id();
                             LocalDate now = LocalDate.now(ZoneId.of("Asia/Seoul"));
                             LocalDate end = now.plusWeeks(2);
-                            RentalEntity rentalEntity =
-                                    RentalEntity.builder().memberId(borrower).bookId(result[1]).channelId(channel_id).isReturn(Boolean.FALSE).startDate(now).endDate(end).build();
+//                            RequestRental rentalEntity =
+//                                    RequestRental.builder().memberId(borrower).bookId(result[1]).channelId(channel_id).isReturn(Boolean.FALSE).build();
+                            RequestRental rentalEntity = new RequestRental();
+                            rentalEntity.setMemberId(borrower);
+                            rentalEntity.setBookId(result[1]);
+                            rentalEntity.setChannelId(channel_id);
+                            rentalEntity.setReturn(Boolean.FALSE);
                             RentalEntity resultEntity = rentalService.create(rentalEntity);
+
                             bookService.updateBookRent(Long.valueOf(result[1]));
                             log.info("책 대여 완료");
                             //책 대여 완료 되었다는 확인 메세지 보내기
@@ -179,14 +187,14 @@ public class SlackApiController {
         log.info((String) CookieUtil.deserializeBasic(Email));
         log.info((String) CookieUtil.deserializeBasic(Id));
         log.info(data.get("NAME"));
-        MemberEntity memberEntity =
-                MemberEntity.builder()
+        RequestMember memberEntity =
+                RequestMember.builder()
                                 .username(data.get("NAME"))
                                         .email((String) CookieUtil.deserializeBasic(Email))
                                                 .team(data.get("TEAM"))
                                                         .location(data.get("BUILDING"))
                                                                 .slackId((String) CookieUtil.deserializeBasic(Id))
-                                                                        .regDate(LocalDate.now(ZoneId.of("Asia/Seoul"))).build();
+                                                                  .build();
 
 
         CookieUtil.deleteCookie(reqeuest,response,"Email");
