@@ -54,7 +54,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://rds-mysql-dev-uplus-bookhub-instance-0.c2cxsnsaan5b.ap-northeast-2.rds.amazonaws.com:3306/demo
+    url: jdbc:mysql://rds-mysql-dev-uplus-bookhub-instance-0.c2cxsnsaan5b.ap-northeast-2.rds.amazonaws.com:3306/demo?autoReconnect=True
     username: ${env.DB_USERNAME}
     password: ${env.DB_PASSWORD}
 
