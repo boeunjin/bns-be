@@ -8,9 +8,10 @@ import java.time.LocalDate;
 public class ResponseRental {
     private Long id;
 
-    private String proposerId;
-    private int bookId;
-    private String ownerId;
+    private String memberId;
+    private Long bookId;
+    private String channelId;
+    private boolean isReturn;
 
     private LocalDate startDate;
     private LocalDate endDate;
