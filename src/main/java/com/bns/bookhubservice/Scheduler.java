@@ -24,14 +24,13 @@ public class Scheduler {
             List<RentalEntity> result = rentalService.getRentalDate(LocalDate.now());
 
             for (RentalEntity rentalEntity : result) {
-                    System.out.println(rentalEntity.getEndDate()+"se");
-                    rentalReturnService.returnMessage(rentalEntity.getId(),rentalEntity.getChannelId(),rentalEntity.getBookId(), rentalEntity.getEndDate());
+                    if (!rentalEntity.isReturn()){
+                        rentalReturnService.returnMessage(rentalEntity.getId(),rentalEntity.getChannelId(),rentalEntity.getBookId(), rentalEntity.getEndDate());
+                    }
                 }
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
 
     }
 }

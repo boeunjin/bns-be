@@ -19,7 +19,7 @@ public class RentalEntity {
     private Long id;
 
     private String memberId;
-    private String bookId;
+    private Long bookId;
     private String channelId;
     private boolean isReturn;
 

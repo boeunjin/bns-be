@@ -20,8 +20,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 @Service("rental_complete")
 public class RentalCompleteService {
-    @Value("${slack.user_token}")
-    private String token;
+
     @Value("${slack.bot_token}")
     private String bot_token;
 
@@ -43,7 +42,7 @@ public class RentalCompleteService {
             http1.setRequestMethod("POST");
             http1.setDoOutput(true);
             http1.setRequestProperty("Accept", "application/json");
-            http1.setRequestProperty("Authorization", "Bearer xoxb-3392925850004-3925308931427-dCvYfpGYXemjs7k25xKqiS8K");
+            http1.setRequestProperty("Authorization", "Bearer "+bot_token);
             http1.setRequestProperty("Content-Type", "application/json");
 
             String data = messageForm(channel_id, bookTitle, end);

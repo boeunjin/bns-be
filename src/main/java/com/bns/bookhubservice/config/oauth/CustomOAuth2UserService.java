@@ -67,7 +67,7 @@ public class CustomOAuth2UserService extends OidcUserService {
 
             } else {
                 // Login User
-
+                Member_OAuth = Boolean.TRUE;
                 log.debug("new user!! {} {}", Id, Email);
 
             }
@@ -76,10 +76,6 @@ public class CustomOAuth2UserService extends OidcUserService {
         }
 
 
-        //유저 엔티티 MemberEntity member = MemberEntity.builder().memberEmail(email).memberSlackId(Id).build();
-//        UserQueryParams params =
-//                UserQueryParams.builder().userId(userId).authYn(CommonConstants.YES_FLAG).build();
-//        User user = userService.getValidUser(params);
 
     }
 

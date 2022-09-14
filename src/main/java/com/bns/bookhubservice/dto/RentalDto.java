@@ -17,8 +17,9 @@ public class RentalDto {
     private Long id;
 
     private String memberId;
-    private String bookId;
+    private Long bookId;
     private String channelId;
+    private boolean isReturn;
 
 
     private LocalDate startDate;

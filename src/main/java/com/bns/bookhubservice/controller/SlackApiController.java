@@ -1,5 +1,6 @@
 package com.bns.bookhubservice.controller;
 import com.bns.bookhubservice.dto.BookDto;
+import com.bns.bookhubservice.dto.RentalDto;
 import com.bns.bookhubservice.entity.MemberEntity;
 import com.bns.bookhubservice.entity.RentalEntity;
 import com.bns.bookhubservice.entity.RentalJson;
@@ -86,49 +87,56 @@ public class SlackApiController {
     @ApiOperation(value = "Slack InterActivity")
     @PostMapping(value = "/slack/interactive",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public  void interactiveTest(@RequestBody MultiValueMap<String, String> data
-                , @CookieValue("ID") String Id
+                //, @CookieValue("ID") String Id
                                  ) throws ParseException, JsonProcessingException {
         BlockActionsPayloads blockActionsPayloads = new BlockActionsPayloads(data);
 
         String value =blockActionsPayloads.getButton_value();
-        String borrower = (String) CookieUtil.deserializeBasic(Id);
-        //String borrower = "U03B9TEG9T8";
+        //String borrower = (String) CookieUtil.deserializeBasic(Id);
+        String borrower = "U03B9TEG9T8";
         String[] result = value.split(" ");
 
+
         if (value.contains("success")){
-
             //Database 책 대여 상태 업데이트 서비스(대여 날짜 및
-
-
             if (!blockActionsPayloads.getUser_id().equals(borrower)) //책 주인만 빌려줄 수 있게 제한
             {
 
                 if(result[0].equals("success")){
+                    Long lngId = Long.valueOf(result[1]);
                     log.info("책 주인이 빌려준다"+result[1]);
-                    rentalSuccessService.successMessage(blockActionsPayloads.getChannel_id(),result[1]);
+                    rentalSuccessService.successMessage(blockActionsPayloads.getChannel_id(),lngId);
                 }
                 else{//return success
                     log.info("책 대여 반납 완료");
+                    try {
+                        Long id = Long.valueOf(result[2]);
+                        RentalDto rentalDto = rentalService.getRentalById(id);
+                        if (!rentalDto.isReturn()){
+                            bookService.updateBookRent(rentalDto.getBookId());
+                            rentalService.updateRentalComplete(id);
+                        }
+
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
 
                 }
             }else
             {
                 if (result[0].equals("rental_success")) {
                     try {
-                        if (!rentalService.getRentalByTrippleId(borrower,result[1])){ // 버튼 한 번만 누르게
+                        Long lngId = Long.valueOf(result[1]);
+                        if (!rentalService.getRentalByTrippleId(borrower,lngId)){ // 버튼 한 번만 누르게
                             String channel_id = blockActionsPayloads.getChannel_id();
                             LocalDate now = LocalDate.now(ZoneId.of("Asia/Seoul"));
                             LocalDate end = now.plusWeeks(2);
-//                            RequestRental rentalEntity =
-//                                    RequestRental.builder().memberId(borrower).bookId(result[1]).channelId(channel_id).isReturn(Boolean.FALSE).build();
-                            RequestRental rentalEntity = new RequestRental();
-                            rentalEntity.setMemberId(borrower);
-                            rentalEntity.setBookId(result[1]);
-                            rentalEntity.setChannelId(channel_id);
-                            rentalEntity.setReturn(Boolean.FALSE);
+                            RequestRental rentalEntity =
+                                    RequestRental.builder().memberId(borrower).bookId(Long.valueOf(result[1])).channelId(channel_id).isReturn(Boolean.FALSE).build();
+
                             RentalEntity resultEntity = rentalService.create(rentalEntity);
 
-                            bookService.updateBookRent(Long.valueOf(result[1]));
+                            bookService.updateBookRent(lngId);
                             log.info("책 대여 완료");
                             //책 대여 완료 되었다는 확인 메세지 보내기
                             rentalCompleteService.completeMessage(channel_id,result[1],end);
@@ -144,8 +152,18 @@ public class SlackApiController {
         else{
             if (!blockActionsPayloads.getUser_id().equals(borrower)){//책 주인만
                 if (result[0].equals("extend")){
+                    Long id = Long.valueOf(result[1]);
                     log.info("책 일주일 연장");
-                    rentalService.updateRental(Long.valueOf(result[1]));
+                    try {
+                        RentalDto rentalDto = rentalService.getRentalById(id);
+                        if (!rentalDto.isReturn()){
+                            rentalService.updateRental(Long.valueOf(id));
+                        }
+
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+
                 }
                 else{
                     // 거절시 어떻게 하지?

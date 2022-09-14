@@ -19,7 +19,7 @@ public class QRentalEntity extends EntityPathBase<RentalEntity> {
 
     public static final QRentalEntity rentalEntity = new QRentalEntity("rentalEntity");
 
-    public final StringPath bookId = createString("bookId");
+    public final NumberPath<Long> bookId = createNumber("bookId", Long.class);
 
     public final StringPath channelId = createString("channelId");
 

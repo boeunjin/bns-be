@@ -83,7 +83,7 @@ public class GroupChatService {
             http1.setRequestMethod("POST");
             http1.setDoOutput(true);
             http1.setRequestProperty("Accept", "application/json");
-            http1.setRequestProperty("Authorization", "Bearer xoxb-3392925850004-3925308931427-dCvYfpGYXemjs7k25xKqiS8K");
+            http1.setRequestProperty("Authorization", bearer_bot_token);
             http1.setRequestProperty("Content-Type", "application/json");
 
             String data = messageForm(channel_id,owner,myself,bookId, bookName,author,image, place);

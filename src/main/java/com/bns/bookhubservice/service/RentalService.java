@@ -43,7 +43,7 @@ public class RentalService {
         return rentalDto;
     }
 
-    public Boolean getRentalByTrippleId(String memberId, String bookId) throws Exception {
+    public Boolean getRentalByTrippleId(String memberId, Long bookId) throws Exception {
         RentalEntity rentalEntity = rentalRepository.findByMemberIdAndBookId(memberId,bookId);
         if(rentalEntity == null){
             return Boolean.FALSE;
@@ -61,7 +61,19 @@ public class RentalService {
         RentalEntity rentalEntity = rentalRepository.findById(id);
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        rentalEntity.setEndDate(LocalDate.now().plusWeeks(1));
+        rentalEntity.setEndDate(LocalDate.now(ZoneId.of("Asia/Seoul")).plusWeeks(1));
+        rentalRepository.save(rentalEntity);
+        rentalEntity.builder().build();
+        RentalDto rentalDto = mapper.map(rentalEntity, RentalDto.class);
+        return rentalDto;
+    }
+    @Transactional
+    public RentalDto updateRentalComplete(Long id){
+        RentalEntity rentalEntity = rentalRepository.findById(id);
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        rentalEntity.setReturn(true);
+        rentalEntity.setEndDate(LocalDate.now(ZoneId.of("Asia/Seoul")));
         rentalRepository.save(rentalEntity);
         rentalEntity.builder().build();
         RentalDto rentalDto = mapper.map(rentalEntity, RentalDto.class);

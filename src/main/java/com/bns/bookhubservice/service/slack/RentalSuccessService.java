@@ -19,8 +19,7 @@ import java.util.ArrayList;
 
 @Service("rental_success")
 public class RentalSuccessService {
-    @Value("${slack.user_token}")
-    private String token;
+
     @Value("${slack.bot_token}")
     private String bot_token;
     @Autowired
@@ -28,20 +27,20 @@ public class RentalSuccessService {
 
     public MessageBlokitBuilder messageBlokitBuilder = new MessageBlokitBuilder();
 
-    public void successMessage(String channel_id, String bookId){
+    public void successMessage(String channel_id, Long bookId){
 
         URL url1 = null;
         try {
-            BookDto bookDto = bookService.getBookById(Long.valueOf(bookId));
+            BookDto bookDto = bookService.getBookById(bookId);
             url1 = new URL("https://slack.com/api/chat.postMessage");
             HttpURLConnection http1 = (HttpURLConnection)url1.openConnection();
             http1.setRequestMethod("POST");
             http1.setDoOutput(true);
             http1.setRequestProperty("Accept", "application/json");
-            http1.setRequestProperty("Authorization", "Bearer xoxb-3392925850004-3925308931427-dCvYfpGYXemjs7k25xKqiS8K");
+            http1.setRequestProperty("Authorization", "Bearer "+bot_token);
             http1.setRequestProperty("Content-Type", "application/json");
 
-            String data = messageForm(channel_id, bookId, bookDto.getTitle());
+            String data = messageForm(channel_id, String.valueOf(bookId), bookDto.getTitle());
             byte[] out = data.getBytes(StandardCharsets.UTF_8);
 
             OutputStream stream = http1.getOutputStream();

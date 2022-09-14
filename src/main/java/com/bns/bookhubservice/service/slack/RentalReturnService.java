@@ -4,6 +4,7 @@ import com.bns.bookhubservice.dto.BookDto;
 import com.bns.bookhubservice.entity.json.CompleteBlokitBuilder;
 import com.bns.bookhubservice.entity.json.ReturnBlokitBuilder;
 import com.bns.bookhubservice.service.BookService;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,32 +20,29 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+@Slf4j
 @Service("rental-return")
 public class RentalReturnService {
-    @Value("${slack.user_token}")
-    private String token;
     @Value("${slack.bot_token}")
     private String bot_token;
-
     @Autowired
     private BookService bookService;
 
 
     public ReturnBlokitBuilder returnBlokitBuilder = new ReturnBlokitBuilder();
 
-    public void returnMessage(Long rentalId, String channel_id, String bookId, LocalDate end) {
+    public void returnMessage(Long rentalId, String channel_id, Long bookId, LocalDate end) {
 
         URL url1 = null;
         try {
-            BookDto bookDto = bookService.getBookById(Long.valueOf(bookId));
+            BookDto bookDto = bookService.getBookById(bookId);
             String bookTitle = bookDto.getTitle();
-
             url1 = new URL("https://slack.com/api/chat.postMessage");
             HttpURLConnection http1 = (HttpURLConnection)url1.openConnection();
             http1.setRequestMethod("POST");
             http1.setDoOutput(true);
             http1.setRequestProperty("Accept", "application/json");
-            http1.setRequestProperty("Authorization", "Bearer xoxb-3392925850004-3925308931427-dCvYfpGYXemjs7k25xKqiS8K");
+            http1.setRequestProperty("Authorization", "Bearer "+bot_token);
             http1.setRequestProperty("Content-Type", "application/json");
 
             String data = messageForm(rentalId,channel_id, bookTitle, end);
