@@ -28,7 +28,7 @@ public class CookieUtil {
         Cookie cookie = new Cookie(name, value);
         cookie.setPath("/");
         cookie.setSecure(true);
-        cookie.setDomain(".uplusbookhub.site");
+        cookie.setDomain("uplusbookhub.site");
         //cookie.setHttpOnly(true);
         cookie.setMaxAge(maxAge);
         response.addCookie(cookie);
@@ -37,7 +37,7 @@ public class CookieUtil {
             HttpServletResponse response, String name, String value, int maxAge) {
         Cookie cookie = new Cookie(name, value);
         cookie.setPath("/");
-        cookie.setDomain(".uplusbookhub.site");
+
         cookie.setSecure(true);
         //cookie.setHttpOnly(true);
         cookie.setMaxAge(maxAge);
