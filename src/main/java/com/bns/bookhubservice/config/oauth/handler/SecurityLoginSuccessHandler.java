@@ -74,12 +74,12 @@ public class SecurityLoginSuccessHandler extends SavedRequestAwareAuthentication
 
         if (Member_OAuth.equals(Boolean.TRUE)){
             CookieUtil.addCookie(response,"Email",CookieUtil.serialize(Email),30*60);
-            CookieUtil.addCookie(response,"ID",CookieUtil.serialize(Id),30*60);
+            CookieUtil.addCookie(response,"ID",CookieUtil.serialize(Id),30*600);
             //CookieUtil.addDomainCookie(response,"Email",CookieUtil.serialize(Email),30*60);
             return targetUrl+"signup";
         }
         else{
-            CookieUtil.addCookie(response,"ID",CookieUtil.serialize(Id),30*60);
+            CookieUtil.addCookie(response,"ID",CookieUtil.serialize(Id),30*600);
             //CookieUtil.addDomainCookie(response,"Email",CookieUtil.serialize(Email),30*60);
             return targetUrl+"main";
         }

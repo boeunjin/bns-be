@@ -29,21 +29,10 @@ public class CookieUtil {
         cookie.setPath("/");
         cookie.setSecure(true);
         cookie.setDomain("uplusbookhub.site");
-        //cookie.setHttpOnly(true);
+
         cookie.setMaxAge(maxAge);
         response.addCookie(cookie);
     }
-    public static void addDomainCookie(
-            HttpServletResponse response, String name, String value, int maxAge) {
-        Cookie cookie = new Cookie(name, value);
-        cookie.setPath("/");
-
-        cookie.setSecure(true);
-        //cookie.setHttpOnly(true);
-        cookie.setMaxAge(maxAge);
-        response.addCookie(cookie);
-    }
-
     public static void deleteCookie(
             HttpServletRequest request, HttpServletResponse response, String name) {
         Cookie[] cookies = request.getCookies();
