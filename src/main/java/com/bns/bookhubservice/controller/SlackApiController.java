@@ -11,6 +11,7 @@ import com.bns.bookhubservice.service.RentalService;
 import com.bns.bookhubservice.service.slack.GroupChatService;
 import com.bns.bookhubservice.service.MemberService;
 import com.bns.bookhubservice.service.slack.RentalCompleteService;
+import com.bns.bookhubservice.service.slack.RentalReturnCompleteService;
 import com.bns.bookhubservice.service.slack.RentalSuccessService;
 import com.bns.bookhubservice.util.CookieUtil;
 import com.bns.bookhubservice.vo.request.RequestMember;
@@ -53,6 +54,8 @@ public class SlackApiController {
     private RentalSuccessService rentalSuccessService;
     @Autowired
     private RentalCompleteService rentalCompleteService;
+    @Autowired
+    private RentalReturnCompleteService rentalReturnCompleteService;
 
     public SlackApiController(GroupChatService groupChatService) {this.groupChatService = groupChatService;}
 
@@ -87,17 +90,27 @@ public class SlackApiController {
     @ApiOperation(value = "Slack InterActivity")
     @PostMapping(value = "/slack/interactive",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public  void interactiveTest(@RequestBody MultiValueMap<String, String> data
-                , @CookieValue("ID") String Id
+                //, @CookieValue("ID") String Id
                                  ) throws ParseException, JsonProcessingException {
         BlockActionsPayloads blockActionsPayloads = new BlockActionsPayloads(data);
 
         String value =blockActionsPayloads.getButton_value();
-        String borrower = (String) CookieUtil.deserializeBasic(Id);
-        //String borrower = "U03B9TEG9T8";
+        log.info(value);
+        //String borrower = (String) CookieUtil.deserializeBasic(Id);
+        //String borrower = "U037EG0M33K";
         String[] result = value.split(" ");
+        String borrower = "non-user";
+
+        if (result.length == 3){
+            borrower = result[2];
+        }
+
+
+        log.info(borrower);
 
 
         if (value.contains("success")){
+
             //Database 책 대여 상태 업데이트 서비스(대여 날짜 및
             if (!blockActionsPayloads.getUser_id().equals(borrower)) //책 주인만 빌려줄 수 있게 제한
             {
@@ -105,16 +118,17 @@ public class SlackApiController {
                 if(result[0].equals("success")){
                     Long lngId = Long.valueOf(result[1]);
                     log.info("책 주인이 빌려준다"+result[1]);
-                    rentalSuccessService.successMessage(blockActionsPayloads.getChannel_id(),lngId);
+                    rentalSuccessService.successMessage(blockActionsPayloads.getChannel_id(),lngId, borrower);
                 }
-                else{//return success
+                else{//return_success
                     log.info("책 대여 반납 완료");
                     try {
-                        Long id = Long.valueOf(result[2]);
+                        Long id = Long.valueOf(result[1]);
                         RentalDto rentalDto = rentalService.getRentalById(id);
                         if (!rentalDto.isReturn()){
                             bookService.updateBookRent(rentalDto.getBookId());
                             rentalService.updateRentalComplete(id);
+                            rentalReturnCompleteService.returnCompleteMessage(rentalDto.getChannelId(), String.valueOf(rentalDto.getBookId()),LocalDate.now(ZoneId.of("Asia/Seoul")),"완료");
                         }
 
                     } catch (Exception e) {
@@ -158,6 +172,8 @@ public class SlackApiController {
                         RentalDto rentalDto = rentalService.getRentalById(id);
                         if (!rentalDto.isReturn()){
                             rentalService.updateRental(Long.valueOf(id));
+                            rentalReturnCompleteService.returnCompleteMessage(rentalDto.getChannelId(), String.valueOf(rentalDto.getBookId()),LocalDate.now(ZoneId.of("Asia/Seoul")).plusWeeks(1),"연장");
+
                         }
 
                     } catch (Exception e) {

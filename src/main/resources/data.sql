@@ -129,7 +129,7 @@ insert into books (id, title, thumbnail_url, author, publisher, owner_id, is_ren
 insert into books (id, title, thumbnail_url, author, publisher, owner_id, is_rented, rent_count, reg_date) values ('93', 'Spring: Microservices with Spring Boot', 'http://books.google.com/books/publisher/content?id=NZRRDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE72WIB5pWx2xlOrrGLe_msQOxft4EeFheGHMTBEFiUFNe0EtNqKco68oofqFDHYndn_lgEawuzurr4gn_kwvk-eUIZXBPxaEA-Z-5gRRZRd44tbUUCTMhkydlTyQel_9Y9MgZ_iA&source=gbs_api%27}', 'Ranga Rao Karanam', 'Packt Publishing Ltd', 'U03B9TEG9T8', False, 9, '2022-08-12');
 
 
-insert into rentals (id, member_id, book_id, channel_id, is_return, start_date, end_date) values ('1','U03B9TEG9T8', '1', 'C03TMEP9F2P',false, '2022-08-12', '2022-09-11');
+insert into rentals (id, member_id, book_id, channel_id, is_return, start_date, end_date) values ('1','U037EG0NUSD', '6', 'C04328LN36W',false, '2022-08-12', '2022-09-11');
 -- insert into rentals (id, member_id, book_id, channel_id, start_date, end_date) values ('2','U03B9TEG9T8', '2', 'C03TMEP9F2P', '2022-08-12', '2022-08-12');
 -- insert into rentals (id, member_id, book_id, channel_id, start_date, end_date) values ('3','U03B9TEG9T8', '3', 'C03TMEP9F2P', '2022-08-12', '2022-08-12');
 -- insert into rentals (id, member_id, book_id, channel_id, start_date, end_date) values ('4','U03B9TEG9T8', '4', 'C03TMEP9F2P', '2022-08-12', '2022-08-12');

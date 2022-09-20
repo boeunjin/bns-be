@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class ReturnBlokitBuilder {
 
-    public ArrayList<Object> blockit(String rentalId,String bookTitle, String end){
+    public ArrayList<Object> blockit(String rentalId,String bookTitle, String end, String myself){
         ArrayList<Object> blocks =new ArrayList<Object>();
         //Header
         JSONObject ji  =new JSONObject();
@@ -23,9 +23,9 @@ public class ReturnBlokitBuilder {
 
         //Section
         JSONObject jl1 = new JSONObject();
-        jl1.put("text","반납일은 "+end+"입니다, 반납이 완료 되었다면 책 주인은 '반납 완료' 버튼을 눌러주세요");
-        jl1.put("type","plain_text");
-        jl1.put("emoji",true);
+        jl1.put("text","*대여자 :*<@"+myself+"> 님 반납일은 "+end+"입니다, 반납이 완료 되었다면 책 주인은 '반납 완료' 버튼을 눌러주세요");
+        jl1.put("type","mrkdwn");
+
 
         JSONObject jo1 = new JSONObject();
         jo1.put("type","section");
@@ -59,7 +59,7 @@ public class ReturnBlokitBuilder {
         ji31.put("type","button");
         ji31.put("text",jio31);
         ji31.put("style","primary");
-        ji31.put("value","return success "+rentalId);
+        ji31.put("value","return_success "+rentalId+" "+myself);
 
         JSONObject jio32 = new JSONObject();
         jio32.put("type","plain_text");
@@ -70,7 +70,7 @@ public class ReturnBlokitBuilder {
         ji32.put("type","button");
         ji32.put("text",jio32);
         ji32.put("style","danger");
-        ji32.put("value","extend "+rentalId);
+        ji32.put("value","extend "+rentalId+" "+myself);
 
 
         JSONArray jl4 = new JSONArray();

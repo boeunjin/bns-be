@@ -81,7 +81,7 @@ public class BookInfoBlokitBuilder {
         ji31.put("type","button");
         ji31.put("text",jio31);
         ji31.put("style","primary");
-        ji31.put("value","success "+bookId);
+        ji31.put("value","success "+bookId+" "+myself);
         //ji31.put("url","https://www.google.com");
         //ji31.put("url","http://localhost:5000/slack/v1/updateRentalBook");
 

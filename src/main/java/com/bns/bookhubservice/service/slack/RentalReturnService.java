@@ -31,7 +31,7 @@ public class RentalReturnService {
 
     public ReturnBlokitBuilder returnBlokitBuilder = new ReturnBlokitBuilder();
 
-    public void returnMessage(Long rentalId, String channel_id, Long bookId, LocalDate end) {
+    public void returnMessage(Long rentalId, String channel_id, Long bookId, LocalDate end, String myself) {
 
         URL url1 = null;
         try {
@@ -45,7 +45,7 @@ public class RentalReturnService {
             http1.setRequestProperty("Authorization", "Bearer "+bot_token);
             http1.setRequestProperty("Content-Type", "application/json");
 
-            String data = messageForm(rentalId,channel_id, bookTitle, end);
+            String data = messageForm(rentalId,channel_id, bookTitle, end, myself);
             byte[] out = data.getBytes(StandardCharsets.UTF_8);
 
             OutputStream stream = http1.getOutputStream();
@@ -67,10 +67,10 @@ public class RentalReturnService {
 
     }
 
-    public String messageForm(Long rentalId, String channel_id, String bookTitle, LocalDate end){
+    public String messageForm(Long rentalId, String channel_id, String bookTitle, LocalDate end, String myself){
         JSONObject message1 = new JSONObject();
         //blockit builder 설정
-        ArrayList<Object> blocks = returnBlokitBuilder.blockit(String.valueOf(rentalId),bookTitle, String.valueOf(end));
+        ArrayList<Object> blocks = returnBlokitBuilder.blockit(String.valueOf(rentalId),bookTitle, String.valueOf(end),myself);
 
         message1.put("channel", channel_id);
         message1.put("username", "Book Hub");

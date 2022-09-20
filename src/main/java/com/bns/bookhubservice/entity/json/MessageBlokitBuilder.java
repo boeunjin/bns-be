@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class MessageBlokitBuilder {
 
-    public ArrayList<Object> blockit(String bookId, String bookTitle){
+    public ArrayList<Object> blockit(String bookId, String bookTitle,String myself){
         ArrayList<Object> blocks =new ArrayList<Object>();
         //Header
         JSONObject ji  =new JSONObject();
@@ -42,7 +42,7 @@ public class MessageBlokitBuilder {
         ji31.put("type","button");
         ji31.put("text",jio31);
         ji31.put("style","primary");
-        ji31.put("value","rental_success "+bookId);
+        ji31.put("value","rental_success "+bookId+" "+myself);
 
         JSONArray jl3 = new JSONArray();
         jl3.add(ji31);

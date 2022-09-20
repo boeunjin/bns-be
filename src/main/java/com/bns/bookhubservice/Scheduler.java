@@ -25,7 +25,7 @@ public class Scheduler {
 
             for (RentalEntity rentalEntity : result) {
                     if (!rentalEntity.isReturn()){
-                        rentalReturnService.returnMessage(rentalEntity.getId(),rentalEntity.getChannelId(),rentalEntity.getBookId(), rentalEntity.getEndDate());
+                        rentalReturnService.returnMessage(rentalEntity.getId(),rentalEntity.getChannelId(),rentalEntity.getBookId(), rentalEntity.getEndDate(),rentalEntity.getMemberId());
                     }
                 }
         } catch (Exception e) {

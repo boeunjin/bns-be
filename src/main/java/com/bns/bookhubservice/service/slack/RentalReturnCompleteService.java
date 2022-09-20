@@ -1,7 +1,8 @@
 package com.bns.bookhubservice.service.slack;
 
 import com.bns.bookhubservice.dto.BookDto;
-import com.bns.bookhubservice.entity.json.MessageBlokitBuilder;
+import com.bns.bookhubservice.entity.json.CompleteBlokitBuilder;
+import com.bns.bookhubservice.entity.json.ReturnCompleteBlokitBuilder;
 import com.bns.bookhubservice.service.BookService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,23 +16,26 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.ArrayList;
-
-@Service("rental_success")
-public class RentalSuccessService {
-
+@Service("rental_return_complete")
+public class RentalReturnCompleteService {
     @Value("${slack.bot_token}")
     private String bot_token;
+
     @Autowired
     private BookService bookService;
 
-    public MessageBlokitBuilder messageBlokitBuilder = new MessageBlokitBuilder();
 
-    public void successMessage(String channel_id, Long bookId, String myself){
+    public ReturnCompleteBlokitBuilder returnCompleteBlokitBuilder = new ReturnCompleteBlokitBuilder();
+
+    public void returnCompleteMessage(String channel_id, String bookId, LocalDate end, String state) {
 
         URL url1 = null;
         try {
-            BookDto bookDto = bookService.getBookById(bookId);
+            BookDto bookDto = bookService.getBookById(Long.valueOf(bookId));
+            String bookTitle = bookDto.getTitle();
+
             url1 = new URL("https://slack.com/api/chat.postMessage");
             HttpURLConnection http1 = (HttpURLConnection)url1.openConnection();
             http1.setRequestMethod("POST");
@@ -40,7 +44,7 @@ public class RentalSuccessService {
             http1.setRequestProperty("Authorization", "Bearer "+bot_token);
             http1.setRequestProperty("Content-Type", "application/json");
 
-            String data = messageForm(channel_id, String.valueOf(bookId), bookDto.getTitle(),myself);
+            String data = messageForm(channel_id, bookTitle, end, state);
             byte[] out = data.getBytes(StandardCharsets.UTF_8);
 
             OutputStream stream = http1.getOutputStream();
@@ -62,18 +66,16 @@ public class RentalSuccessService {
 
     }
 
-    public String messageForm(String channel_id, String bookId, String bookTitle, String myself){
-        JSONObject message = new JSONObject();
+    public String messageForm(String channel_id, String bookTitle, LocalDate end, String state){
+        JSONObject message1 = new JSONObject();
         //blockit builder 설정
-        ArrayList<Object> blocks = messageBlokitBuilder.blockit(bookId, bookTitle, myself);
+        ArrayList<Object> blocks = returnCompleteBlokitBuilder.blockit(bookTitle, String.valueOf(end), state);
 
-        message.put("channel", channel_id);
-        message.put("username", "Book Hub");
-        message.put("blocks", blocks);
-        System.out.println(message.toString());
+        message1.put("channel", channel_id);
+        message1.put("username", "Book Hub");
+        message1.put("blocks", blocks);
+        System.out.println(message1.toString());
 
-        return message.toString();
+        return message1.toString();
     }
-
-
 }
