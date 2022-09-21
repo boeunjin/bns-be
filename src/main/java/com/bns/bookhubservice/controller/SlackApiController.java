@@ -126,7 +126,7 @@ public class SlackApiController {
                         Long id = Long.valueOf(result[1]);
                         RentalDto rentalDto = rentalService.getRentalById(id);
                         if (!rentalDto.isReturn()){
-                            bookService.updateBookRent(rentalDto.getBookId());
+                            bookService.updateBookReturn(rentalDto.getBookId());
                             rentalService.updateRentalComplete(id);
                             rentalReturnCompleteService.returnCompleteMessage(rentalDto.getChannelId(), String.valueOf(rentalDto.getBookId()),LocalDate.now(ZoneId.of("Asia/Seoul")),"완료");
                         }
