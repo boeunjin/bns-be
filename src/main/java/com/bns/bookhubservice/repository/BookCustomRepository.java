@@ -13,4 +13,10 @@ public interface BookCustomRepository {
     // QueryDSL 도서 검색 결과 목록 조회
     public List<BookDto> searchBooks(String title);
 
+    public List<BookDto> searchBooksAsc(String title);
+
+    public List<BookDto> searchBooksDesc(String title);
+
+    public List<BookDto> searchBooksReg(String title);
+
 }
