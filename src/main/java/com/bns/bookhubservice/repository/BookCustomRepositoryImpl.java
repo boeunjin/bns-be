@@ -42,4 +42,73 @@ public class BookCustomRepositoryImpl implements BookCustomRepository {
         return result;
     }
 
+    @Override
+    public List<BookDto> searchBooksAsc(String title){
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
+        QBookEntity book = new QBookEntity("tb");
+
+        List<BookDto> result =
+                queryFactory
+                        .select(
+                                Projections.bean(
+                                        BookDto.class,
+                                        book.title,
+                                        book.author,
+                                        book.publisher,
+                                        book.thumbnailUrl))
+                        .from(book)
+                        .where(book.title.contains(title))
+                        .groupBy(book.title)
+                        .orderBy(book.title.asc())
+                        .fetch();
+        return result;
+    }
+
+    @Override
+    public List<BookDto> searchBooksDesc(String title){
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
+        QBookEntity book = new QBookEntity("tb");
+
+        List<BookDto> result =
+                queryFactory
+                        .select(
+                                Projections.bean(
+                                        BookDto.class,
+                                        book.title,
+                                        book.author,
+                                        book.publisher,
+                                        book.thumbnailUrl))
+                        .from(book)
+                        .where(book.title.contains(title))
+                        .groupBy(book.title)
+                        .orderBy(book.title.desc())
+                        .fetch();
+        return result;
+    }
+
+    @Override
+    public List<BookDto> searchBooksReg(String title){
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+
+        QBookEntity book = new QBookEntity("tb");
+
+        List<BookDto> result =
+                queryFactory
+                        .select(
+                                Projections.bean(
+                                        BookDto.class,
+                                        book.title,
+                                        book.author,
+                                        book.publisher,
+                                        book.thumbnailUrl))
+                        .from(book)
+                        .where(book.title.contains(title))
+                        .groupBy(book.title)
+                        .orderBy(book.regDate.asc())
+                        .fetch();
+        return result;
+    }
+
 }

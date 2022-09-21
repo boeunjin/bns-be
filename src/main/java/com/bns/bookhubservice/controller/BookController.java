@@ -85,6 +85,33 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
+    @GetMapping(path="/v1/books/searchAsc", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation("QueryDSL 도서 검색 결과 목록 조회")
+    public ResponseEntity<List<BookDto>> searchBooksAsc(@RequestParam(required = false) String title) throws Exception {
+
+        List<BookDto> list = bookService.searchBooksAsc(title);
+
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
+    @GetMapping(path="/v1/books/searchDesc", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation("QueryDSL 도서 검색 결과 목록 조회")
+    public ResponseEntity<List<BookDto>> searchBooksDesc(@RequestParam(required = false) String title) throws Exception {
+
+        List<BookDto> list = bookService.searchBooksDesc(title);
+
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
+    @GetMapping(path="/v1/books/searchReg", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation("QueryDSL 도서 검색 결과 목록 조회")
+    public ResponseEntity<List<BookDto>> searchBooksReg(@RequestParam(required = false) String title) throws Exception {
+
+        List<BookDto> list = bookService.searchBooksReg(title);
+
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
 
 
 }

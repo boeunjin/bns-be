@@ -83,6 +83,18 @@ public class BookService {
         return bookCustomRepository.searchBooks(title);
     }
 
+    public List<BookDto> searchBooksAsc(String title) throws Exception {
+        return bookCustomRepository.searchBooksAsc(title);
+    }
+
+    public List<BookDto> searchBooksDesc(String title) throws Exception {
+        return bookCustomRepository.searchBooksDesc(title);
+    }
+
+    public List<BookDto> searchBooksReg(String title) throws Exception {
+        return bookCustomRepository.searchBooksReg(title);
+    }
+
 
 
 
