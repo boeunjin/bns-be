@@ -77,7 +77,7 @@ public class BookController {
 
     // QueryDSL 도서 검색 결과 목록 조회
     @GetMapping(path="/v1/books/search", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation("QueryDSL 도서 검색 결과 목록 조회")
+    @ApiOperation("QueryDSL 도서 검색 결과 목록 조회 - 대여 횟수 순")
     public ResponseEntity<List<BookDto>> searchBooks(@RequestParam(required = false) String title) throws Exception {
 
         List<BookDto> list = bookService.searchBooks(title);
@@ -86,7 +86,7 @@ public class BookController {
     }
 
     @GetMapping(path="/v1/books/searchAsc", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation("QueryDSL 도서 검색 결과 목록 조회")
+    @ApiOperation("QueryDSL 도서 검색 결과 목록 조회 - 제목 내림차순")
     public ResponseEntity<List<BookDto>> searchBooksAsc(@RequestParam(required = false) String title) throws Exception {
 
         List<BookDto> list = bookService.searchBooksAsc(title);
@@ -95,7 +95,7 @@ public class BookController {
     }
 
     @GetMapping(path="/v1/books/searchDesc", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation("QueryDSL 도서 검색 결과 목록 조회")
+    @ApiOperation("QueryDSL 도서 검색 결과 목록 조회 - 제목 오름차순")
     public ResponseEntity<List<BookDto>> searchBooksDesc(@RequestParam(required = false) String title) throws Exception {
 
         List<BookDto> list = bookService.searchBooksDesc(title);
@@ -104,7 +104,7 @@ public class BookController {
     }
 
     @GetMapping(path="/v1/books/searchReg", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation("QueryDSL 도서 검색 결과 목록 조회")
+    @ApiOperation("QueryDSL 도서 검색 결과 목록 조회 - ")
     public ResponseEntity<List<BookDto>> searchBooksReg(@RequestParam(required = false) String title) throws Exception {
 
         List<BookDto> list = bookService.searchBooksReg(title);
