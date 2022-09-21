@@ -104,7 +104,7 @@ public class BookController {
     }
 
     @GetMapping(path="/v1/books/searchReg", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation("QueryDSL 도서 검색 결과 목록 조회 - ")
+    @ApiOperation("QueryDSL 도서 검색 결과 목록 조회 - 등록일순")
     public ResponseEntity<List<BookDto>> searchBooksReg(@RequestParam(required = false) String title) throws Exception {
 
         List<BookDto> list = bookService.searchBooksReg(title);
